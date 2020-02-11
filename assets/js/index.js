@@ -13,8 +13,15 @@ const gData = [
     lng: -98.5795,
     size: 0.05,
     color: "white",
+    image: "http://www.kansastravel.org/14geographiccenter1.JPG"
+  },
+  {
+    lat: 73.414228,
+    lng: -0.279443,
+    size: 0.05,
+    color: "white",
     image:
-      "https://lh3.googleusercontent.com/proxy/kFi5fYBYma3Rniy8byPd94yv_hzn0M1rsWcfxy_wddAGvugpTGITQP6Ihqz_-MsUbhCaJk1c6D3J1PeU3KAoZpwKb0ql2elpCgS1"
+      "https://images.unsplash.com/photo-1540206395-68808572332f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=562&q=80"
   }
 ]
 
@@ -113,6 +120,18 @@ tbControls.zoomSpeed = 0.8
 var raycaster = new THREE.Raycaster()
 var mouse = new THREE.Vector2()
 
+var modal = document.getElementById("myModal")
+
+var closespan = document.getElementById("close")
+closespan.addEventListener(
+  "click",
+  function() {
+    modal.style.display = "none"
+  },
+  false
+)
+window.addEventListener("click", function(event) {}, false)
+
 function onMouseClick(event) {
   event.preventDefault()
   // console.log("X", event.clientX, "Y", event.clientY)
@@ -124,9 +143,19 @@ function onMouseClick(event) {
 
   if (intersects.length > 2) {
     if (intersects[0].object["__globeObjType"] == "point") {
-      window.open(intersects[0].object["__data"]["image"])
+      // window.open(intersects[0].object["__data"]["image"])
+      image = document.createElement("IMG")
+      image.className = "image"
+      image.setAttribute("src", intersects[0].object["__data"]["image"])
+      modal.appendChild(image)
+      console.log(modal)
+      modal.style.display = "block"
     }
   } else {
+    if (event.target != modal) {
+      modal.innerHTML = ""
+      modal.style.display = "none"
+    }
   }
 }
 document.addEventListener("click", onMouseClick, false)
