@@ -1,0 +1,45 @@
+html,
+body {
+  margin: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+canvas {
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 2; /* Sit on top */
+  user-select: none;
+}
+
+/* Modal Content */
+.image {
+  position: relative;
+  padding: 0;
+  max-width: 800px;
+  max-height: 500px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+/* The Close Button */
+#close {
+  position: absolute;
+  z-index: 4;
+  right: 25;
+  color: white;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+#close:hover,
+#close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
