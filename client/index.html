@@ -4,6 +4,50 @@
       margin: 0;
     }
   </style>
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="assets/css/index.css" />
+  <script
+    src="https://kit.fontawesome.com/59a1b739d9.js"
+    crossorigin="anonymous"
+  ></script>
+  <script src="assets/js/three.min.js"></script>
+  <script src="assets/js/three-trackballcontrols.min.js"></script>
+  <script src="assets/js/three-globe.js"></script>
+</head>
+
+<body>
+  <div id="globeViz"></div>
+  <div id="myModal" class="imageModal">
+    <span id="close">&times;</span>
+    <div id="imageFrame"></div>
+  </div>
+  <div style="z-index: 25; position: absolute; right: 10; width: 400px;">
+    <div class="imageListItem card text-right">
+      <div class="card-body">
+        <h4 class="card-title">Passo dello Stelvio, Italy</h4>
+        <h5 class="card-text">
+          By David Marcu
+        </h5>
+        <a
+          href="#"
+          onClick="(function(){
+          window.open('https://unsplash.com/@didin_emelu', '_blank'); 
+          return false;
+      })();return false;"
+          ><i class="icon fas fa-user-circle fa-2x"></i
+        ></a>
+      </div>
+    </div>
+  </div>
+  <script src="assets/js/index.js"></script>
+</body>
+<!-- 
+<head>
+  <style>
+    body {
+      margin: 0;
+    }
+  </style>
   <link rel="stylesheet" href="assets/css/index.css" />
   <script src="assets/js/three.min.js"></script>
   <script src="assets/js/three-trackballcontrols.min.js"></script>
@@ -17,4 +61,4 @@
     <div id="imageFrame"></div>
   </div>
   <script src="assets/js/index.js"></script>
-</body>
+</body> -->

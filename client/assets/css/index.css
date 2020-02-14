@@ -7,14 +7,22 @@ body {
   justify-content: center;
 }
 
-canvas {
+.imageListItem {
+  background-color: black;
+  color: white;
+  border-radius: 0%;
+  border: 2px solid white;
+}
+
+#imageFrame {
+  max-width: 700px;
 }
 
 /* The Modal (background) */
-.modal {
+.imageModal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
-  z-index: 2; /* Sit on top */
+  z-index: 200; /* Sit on top */
   user-select: none;
 }
 
@@ -22,7 +30,7 @@ canvas {
 .image {
   position: relative;
   padding: 0;
-  max-width: 800px;
+  max-width: 700px;
   max-height: 500px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
@@ -30,7 +38,7 @@ canvas {
 /* The Close Button */
 #close {
   position: absolute;
-  z-index: 4;
+  z-index: 300;
   right: 25;
   color: white;
   font-size: 28px;
@@ -42,4 +50,17 @@ canvas {
   color: #000;
   text-decoration: none;
   cursor: pointer;
+}
+
+.icon {
+  transition: all 0.2s ease-in-out;
+  color: white;
+}
+
+.icon:hover {
+  transform: scale(1.2);
+}
+
+a {
+  color: inherit;
 }
