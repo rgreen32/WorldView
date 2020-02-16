@@ -6,7 +6,7 @@ import sqlite3
 
 class ImageFinder:
     def __init__(self, collections):
-        self.key = os.getenv("API_KEY")
+        self.key = os.getenv("WORLDVIEW_API_KEY")
         self.images = []
         self.collections = collections
         self.unsplashURL = "https://api.unsplash.com/photos/random/?collections=" + ",".join(collections) + "&client_id=" + self.key
@@ -23,7 +23,7 @@ class ImageFinder:
         print("Starting main loop...")
         api_requests = 0
         while(True):
-            if(api_requests > 7):
+            if(api_requests > 1):
                 tuples = []
                 for image in self.images:
                     tuples.append((image["url"], image["location"], image["gps"]["latitude"], image["gps"]["longitude"], image["userName"], image["portfolio"], image["unsplash_profile"]))

@@ -20,5 +20,5 @@ imageHandler = ImageHandler()
 
 @app.route("/")
 def index():
-    images = imageHandler.grabRandomImages()
+    images = imageHandler.grabRandomImages("15")
     return jsonify(images)
