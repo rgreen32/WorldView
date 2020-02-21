@@ -5,20 +5,23 @@ import Globe from "./Globe"
 import ImageList from "./ImageList"
 import Radium from "radium"
 import "./App.css"
-import "./ImageList/imageList.css"
 
 function App() {
   const [markers, setMarkers] = useState([])
+  const [focusedMarker, setFocusedMarker] = useState(null)
+  const [hoverFocusedMarker, setHoverFocusedMarker] = useState(null)
 
   useEffect(() => {
     const fetchImageData = async () => {
       await axios.get("http://127.0.0.1:5000/").then(res => {
         const images = res.data
-        // console.log(images)
 
-        images.forEach(entry => {
-          entry.size = 0.05
+        images.forEach((entry, index) => {
+          entry.id = index
+          entry.size = 0.04
           entry.color = "white"
+          entry.alt = 0.02
+          entry.radius = 2
         })
         setMarkers(images)
       })
@@ -27,8 +30,22 @@ function App() {
   }, [])
   return (
     <>
-      {markers.length != 0 && <Globe markers={markers} />}
-      {markers.length != 0 && <ImageList images={markers} />}
+      {markers.length != 0 && (
+        <Globe
+          markers={markers}
+          setFocusedMarker={setFocusedMarker}
+          focusedMarker={focusedMarker}
+          hoverFocusedMarker={hoverFocusedMarker}
+        />
+      )}
+      {markers.length != 0 && (
+        <ImageList
+          images={markers}
+          setFocusedMarker={setFocusedMarker}
+          focusedMarker={focusedMarker}
+          setHoverFocusedMarker={setHoverFocusedMarker}
+        />
+      )}
     </>
   )
 }

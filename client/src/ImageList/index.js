@@ -1,19 +1,5 @@
 import React, { useState, useEffect } from "react"
-import {
-  Row,
-  Col,
-  Card,
-  Pagination,
-  PaginationItem,
-  PaginationLink,
-  Button
-} from "reactstrap"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import Radium from "radium"
-import color from "color"
-import "./imageList.css"
-
-import { faUserCircle } from "@fortawesome/free-solid-svg-icons"
+import { Row, Col, Card, Button } from "reactstrap"
 
 const ImageList = props => {
   const [imageData, setImageData] = useState([])
@@ -21,7 +7,6 @@ const ImageList = props => {
   const [pages, setPages] = useState([])
   const [currentPage, setCurrentPage] = useState([])
   const [pageIndex, setPageIndex] = useState(0)
-  const [activeButtonIndex, setActiveButtonIndex] = useState()
 
   useEffect(() => {
     const imageArray = props.images.slice()
@@ -44,6 +29,18 @@ const ImageList = props => {
     setCurrentPage(pageData[0])
     setPageIndex(0)
   }, [])
+  useEffect(() => {
+    if (props.focusedMarker != null) {
+      pages.forEach((page, x) => {
+        page.forEach((item, y) => {
+          if (props.focusedMarker == item.id) {
+            setCurrentPage(pages[x])
+            setPageIndex(x)
+          }
+        })
+      })
+    }
+  }, [props.focusedMarker])
 
   return (
     <>
@@ -61,49 +58,7 @@ const ImageList = props => {
           sm={3}
           className="text-center"
         >
-          {currentPage.map((img, index) => {
-            return (
-              <Card
-                key={index}
-                style={{
-                  padding: 0,
-                  backgroundColor: "black"
-                }}
-                className="mt-3"
-                body
-              >
-                <Button
-                  color="light"
-                  outline={index != activeButtonIndex}
-                  style={{
-                    padding: 0,
-                    width: "100%",
-
-                    minHeight: "100px",
-
-                    height: "100%",
-                    textAlign: "right",
-                    borderRadius: 0
-                  }}
-                  onClick={() => {
-                    if (index != activeButtonIndex) {
-                      setActiveButtonIndex(index)
-                    } else {
-                      setActiveButtonIndex(null)
-                    }
-                  }}
-                >
-                  <h5 className="mt-2 mr-2" style={{}}>
-                    {img.location}
-                  </h5>
-                  <h6 className="my-2 mr-2" style={{}}>
-                    By {img.userName}
-                  </h6>
-                </Button>
-              </Card>
-            )
-          })}
-          <div style={{ position: "absolute", bottom: 50, left: 150 }}>
+          <div className="mt-3">
             {pages.map((page, index) => {
               if (index == pageIndex) {
                 return (
@@ -115,7 +70,6 @@ const ImageList = props => {
                     onClick={() => {
                       setCurrentPage(pages[index])
                       setPageIndex(index)
-                      setActiveButtonIndex(null)
                     }}
                   >
                     {index + 1}
@@ -131,7 +85,6 @@ const ImageList = props => {
                     onClick={() => {
                       setCurrentPage(pages[index])
                       setPageIndex(index)
-                      setActiveButtonIndex(null)
                     }}
                   >
                     {index + 1}
@@ -140,6 +93,55 @@ const ImageList = props => {
               }
             })}
           </div>
+          {currentPage.map((img, index) => {
+            return (
+              <Card
+                key={index}
+                style={{
+                  padding: 0,
+                  backgroundColor: "black"
+                }}
+                className="mt-3"
+                body
+              >
+                <Button
+                  color="light"
+                  outline={img.id != props.focusedMarker}
+                  style={{
+                    padding: 0,
+                    width: "100%",
+
+                    minHeight: "100px",
+
+                    height: "100%",
+                    textAlign: "right",
+                    borderRadius: 0,
+                    borderWidth: "2px"
+                  }}
+                  onClick={() => {
+                    if (img.id != props.focusedMarker) {
+                      props.setFocusedMarker(img.id)
+                    } else {
+                      props.setFocusedMarker(null)
+                    }
+                  }}
+                  onMouseEnter={() => {
+                    props.setHoverFocusedMarker(img.id)
+                  }}
+                  onMouseOut={() => {
+                    props.setHoverFocusedMarker(null)
+                  }}
+                >
+                  <h5 className="mt-2 mr-2" style={{}}>
+                    {img.location}
+                  </h5>
+                  <h6 className="my-2 mr-2" style={{}}>
+                    By {img.userName}
+                  </h6>
+                </Button>
+              </Card>
+            )
+          })}
         </Col>
       </Row>
     </>
@@ -147,20 +149,3 @@ const ImageList = props => {
 }
 
 export default ImageList
-
-const styles = {
-  panel: {
-    backgroundColor: "black",
-    color: "white",
-    width: "100%",
-    border: "2px solid white",
-    borderRadius: 0,
-    ":hover": {
-      color: "#ffffff",
-      cursor: "pointer"
-    },
-    "@media (max-width: 700px)": {
-      backgroundColor: "#ff0000"
-    }
-  }
-}
