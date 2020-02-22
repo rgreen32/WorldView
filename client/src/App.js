@@ -19,7 +19,7 @@ function App() {
         images.forEach((entry, index) => {
           entry.id = index
           entry.size = 0.04
-          entry.color = "white"
+          entry.color = "gold"
           entry.alt = 0.02
           entry.radius = 2
         })
