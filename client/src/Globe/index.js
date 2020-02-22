@@ -4,6 +4,7 @@ import * as THREE from "three"
 import { createGlowMesh, defaultOptions } from "three-glow-mesh"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 import { Interaction } from "three.interaction"
+import { Tween, Easing, update } from "es6-tween"
 
 export default function Globe(props) {
   const [globe, setGlobe] = useState()
@@ -16,6 +17,7 @@ export default function Globe(props) {
   const [markerObj, setMarkerObj] = useState()
   const [cameraFocused, setCameraFocused] = useState(false)
   const [initalCameraPosition, setInitialCameraPosition] = useState(null)
+  const [cloudLayer, setCloudLayer] = useState(null)
 
   useEffect(() => {
     const renderer = new THREE.WebGLRenderer()
@@ -32,7 +34,7 @@ export default function Globe(props) {
       ...defaultOptions, // console.log this for reference
       backside: false,
       coefficient: 0,
-      color: "white",
+      color: "gold",
       size: 5,
       power: 7
     }
@@ -61,22 +63,38 @@ export default function Globe(props) {
         obj.cursor = "pointer"
         obj.on("click", function(ev) {
           props.setFocusedMarker(ev.data.target.__data.id)
-          setCameraFocused(true)
-          setInitialCameraPosition(camera.position)
+
+          // setInitialCameraPosition(camera.position)
           let position = myGlobe.getCoords(
             ev.data.target.__data.lat,
             ev.data.target.__data.lng,
-            0.5
+            1.1
           )
           // focusCamera(ev.data.target.__data)
           // orbitControls.enabled = false
-          // orbitControls.autoRotate = false
+          orbitControls.autoRotate = false
           // console.log(orbitControls.dampingFactor)
           orbitControls.dampingFactor = 0
-          if (focusedMarker != ev.data.target) {
+          let coords = {
+            x: camera.position.x,
+            y: camera.position.y,
+            z: camera.position.z
+          }
+          if (cameraFocused != true) {
+            setInitialCameraPosition({
+              x: -415.2971330601325,
+              y: 157.35740158480883,
+              z: -14.427464555977274
+            })
           }
 
-          camera.position.set(position.x, position.y, position.z)
+          var tween = new Tween(coords)
+            .to({ x: position.x, y: position.y, z: position.z }, 1000)
+            .easing(Easing.Quadratic.Out)
+            .on("update", () => {
+              camera.position.set(coords.x, coords.y, coords.z)
+            })
+            .start()
         })
 
         obj.on("mouseover", function(ev) {
@@ -101,6 +119,16 @@ export default function Globe(props) {
       backgroundmaterial
     )
 
+    var cloudsGeometry = new THREE.SphereGeometry(101, 75, 75)
+    var cloudsMaterial = new THREE.MeshLambertMaterial({
+      transparent: true,
+      map: THREE.ImageUtils.loadTexture("/clouds.png")
+    })
+    cloudsMaterial.opacity = 0.3
+
+    const cloudLayer = new THREE.Mesh(cloudsGeometry, cloudsMaterial)
+    setCloudLayer(cloudLayer)
+
     // var sungeometry = new THREE.SphereGeometry(50, 13, 13)
     // var sunmaterial = new THREE.MeshLambertMaterial()
     // const sun = new THREE.Mesh(sungeometry, sunmaterial)
@@ -109,6 +137,7 @@ export default function Globe(props) {
 
     // scene.add(globeBackground)
     scene.add(myGlobe)
+    scene.add(cloudLayer)
 
     const topLight = new THREE.DirectionalLight(0xffffff, 0.5)
     topLight.position.set(0, 1, 0)
@@ -138,10 +167,16 @@ export default function Globe(props) {
     camera.updateProjectionMatrix()
     // camera.position.x = -400
     // camera.position.z = 100
-    camera.position.set(0, 0, 320)
+    camera.position.set(
+      -415.2971330601325,
+      157.35740158480883,
+      -14.427464555977274
+    )
+
     setGlobeCamera(camera)
     // camera.fov = 100
     // camera.updateProjectionMatrix()
+    // console.log(camera.position)
 
     // Add camera controls
 
@@ -164,15 +199,20 @@ export default function Globe(props) {
     window.addEventListener("resize", onWindowResize, false)
     var INTERSECTED
 
-    function render(val) {
+    function render() {
       // find intersections
 
+      ;["x", "y", "z"].forEach(function(axis) {
+        cloudLayer.rotation[axis] += Math.random() / 1000
+      })
+      // cloudLayer.rotation.y += 0.005
       orbitControls.update()
       renderer.render(scene, camera)
     }
-    function animate() {
-      let val = requestAnimationFrame(animate)
-      render(val)
+    function animate(time) {
+      requestAnimationFrame(animate)
+      update(time)
+      render()
     }
 
     animate()
@@ -199,49 +239,64 @@ export default function Globe(props) {
       }
       let marker = markerObj[props.focusedMarker]
       marker.scale.set(1.5, 1.5, 1.5)
-      let coords = globe.getCoords(marker.__data.lat, marker.__data.lng, 0.5)
-      let x = globeCamera.position.x
-      let y = globeCamera.position.y
-      let z = globeCamera.position.z
-      setInitialCameraPosition({
-        x: x,
-        y: y,
-        z: z
-      })
-      globeCamera.position.set(coords.x, coords.y, coords.z)
+      let coords = globe.getCoords(marker.__data.lat, marker.__data.lng, 1.1)
 
+      let camCoords = {
+        x: globeCamera.position.x,
+        y: globeCamera.position.y,
+        z: globeCamera.position.z
+      }
+      if (cameraFocused != true) {
+        setCameraFocused(true)
+        setInitialCameraPosition({
+          x: camCoords.x,
+          y: camCoords.y,
+          z: camCoords.z
+        })
+      }
+      // globeCamera.position.set(coords.x, coords.y, coords.z)
+
+      var tween = new Tween(camCoords)
+        .to({ x: coords.x, y: coords.y, z: coords.z }, 1000)
+        .easing(Easing.Quadratic.Out)
+        .on("update", () => {
+          globeCamera.position.set(camCoords.x, camCoords.y, camCoords.z)
+        })
+        .start()
       globeControls.dampingFactor = 0
 
       setFocusedMarker(marker)
     } else if (props.focusedMarker == null) {
       if (focusedMarker != null) {
         focusedMarker.scale.set(1, 1, 1)
-        globeCamera.position.set(
-          initalCameraPosition.x,
-          initalCameraPosition.y,
-          initalCameraPosition.z
-        )
+        globeControls.autoRotate = true
+
+        setCameraFocused(false)
+        let camCoords = {
+          x: globeCamera.position.x,
+          y: globeCamera.position.y,
+          z: globeCamera.position.z
+        }
+        var tween = new Tween(camCoords)
+          .to(
+            {
+              x: initalCameraPosition.x,
+              y: initalCameraPosition.y,
+              z: initalCameraPosition.z
+            },
+            1000
+          )
+          .easing(Easing.Quadratic.Out)
+          .on("update", () => {
+            globeCamera.position.set(camCoords.x, camCoords.y, camCoords.z)
+          })
+          .start()
         globeControls.dampingFactor = 0.05
       }
     }
   }, [props.focusedMarker])
   if (props.focusedMarker != null) {
     markerObj[props.focusedMarker].scale.set(1.5, 1.5, 1.5)
-  }
-
-  function focusCamera(marker) {
-    setCameraFocused(true)
-    setInitialCameraPosition(globeCamera.position)
-    props.setFocusedMarker(marker.id)
-    setCameraFocused(true)
-    setInitialCameraPosition(globeCamera.position)
-    let position = globe.getCoords(marker.__data.lat, marker.__data.lng, 0.5)
-
-    globeControls.dampingFactor = 0
-    if (focusedMarker != marker) {
-    }
-
-    globeCamera.position.set(position.x, position.y, position.z)
   }
 
   return null
