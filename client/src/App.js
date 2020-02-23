@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from "react"
-import ReactDOM from "react-dom"
+import { Button } from "reactstrap"
 import axios from "axios"
 import Globe from "./Globe"
 import ImageList from "./ImageList"
-import Viewer from "react-viewer"
 import ImgsViewer from "react-images-viewer"
+import Sparkle from "react-sparkle"
 import "./App.css"
 
 function App() {
   const [markers, setMarkers] = useState([])
+  const [loadingGlobe, setLoadingGlobe] = useState(true)
   const [focusedMarker, setFocusedMarker] = useState(null)
   const [hoverFocusedMarker, setHoverFocusedMarker] = useState(null)
   const [visible, setVisible] = useState(false)
   const [image, setImage] = useState(null)
+  const [imageCaption, setImageCaption] = useState(null)
   const [fetchingData, setFetchingData] = useState(true)
+  const [enhanceHover, setEnhanceHover] = useState(false)
+  const [enhanced, setEnhanced] = useState(false)
 
   useEffect(() => {
     if (fetchingData) {
@@ -39,7 +43,7 @@ function App() {
     <>
       {focusedMarker != null && (
         <ImgsViewer
-          imgs={[{ src: image }]}
+          imgs={[{ src: image, caption: imageCaption }]}
           isOpen={visible}
           showCloseBtn={false}
           backdropCloseable={true}
@@ -54,7 +58,6 @@ function App() {
           }}
         />
       )}
-
       <Globe
         markers={markers}
         setFocusedMarker={setFocusedMarker}
@@ -62,9 +65,11 @@ function App() {
         hoverFocusedMarker={hoverFocusedMarker}
         setVisible={setVisible}
         setImage={setImage}
+        setImageCaption={setImageCaption}
+        setLoadingGlobe={setLoadingGlobe}
+        enhanced={enhanced}
       />
-
-      {markers.length != 0 && (
+      {markers.length != 0 && !loadingGlobe && (
         <ImageList
           images={markers}
           setFocusedMarker={setFocusedMarker}
@@ -75,6 +80,30 @@ function App() {
           setFetchingData={setFetchingData}
         />
       )}
+      <div
+        style={{
+          color: "white",
+          position: "absolute",
+          left: 40,
+          bottom: 40,
+          pointerEvents: "all",
+          cursor: "pointer"
+        }}
+        onMouseEnter={() => {
+          setEnhanceHover(true)
+        }}
+        onMouseOut={() => {
+          setEnhanceHover(false)
+        }}
+        onClick={() => {
+          setEnhanced(true)
+        }}
+      >
+        <h1>Enhance</h1>
+
+        {enhanceHover && <Sparkle />}
+      </div>
+      >
     </>
   )
 }

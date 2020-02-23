@@ -43,6 +43,10 @@ const ImageList = props => {
     }
   }, [props.focusedMarker])
 
+  // useEffect(()=>{
+
+  // })
+
   return (
     <>
       <Row
@@ -64,15 +68,26 @@ const ImageList = props => {
               id="refresh"
               className="mr-3"
               style={{ cursor: "pointer" }}
-              onClick={() => {
-                props.setFetchingData(true)
-              }}
               onMouseEnter={() => {
                 let icon = document.getElementById("refresh")
-                console.log(icon)
                 let coords = { x: 0 }
                 var tween = new Tween(coords)
                   .to({ x: 360 }, 1000)
+                  .easing(Easing.Quadratic.Out)
+                  .on("update", () => {
+                    icon.style.setProperty(
+                      "transform",
+                      `rotate(${coords.x}deg)`
+                    )
+                  })
+                  .start()
+              }}
+              onClick={() => {
+                props.setFetchingData(true)
+                let icon = document.getElementById("refresh")
+                let coords = { x: 0 }
+                var tween = new Tween(coords)
+                  .to({ x: 720 }, 1000)
                   .easing(Easing.Quadratic.Out)
                   .on("update", () => {
                     icon.style.setProperty(

@@ -38,6 +38,7 @@ export default function Globe(props) {
       size: 5,
       power: 7
     }
+
     const orbitControls = new OrbitControls(camera, renderer.domElement)
     orbitControls.autoRotate = true
     const interaction = new Interaction(renderer, scene, camera)
@@ -86,17 +87,6 @@ export default function Globe(props) {
       })
     setGlobe(myGlobe)
     setMarkerObj(marks)
-    var backgroundgeometry = new THREE.SphereBufferGeometry(400, 15, 15)
-
-    var backgroundmaterial = new THREE.MeshBasicMaterial({
-      side: THREE.BackSide,
-      map: THREE.ImageUtils.loadTexture("/background.png")
-    })
-
-    const globeBackground = new THREE.Mesh(
-      backgroundgeometry,
-      backgroundmaterial
-    )
 
     var cloudsGeometry = new THREE.SphereGeometry(101, 75, 75)
     var cloudsMaterial = new THREE.MeshLambertMaterial({
@@ -107,12 +97,6 @@ export default function Globe(props) {
 
     const cloudLayer = new THREE.Mesh(cloudsGeometry, cloudsMaterial)
     setCloudLayer(cloudLayer)
-
-    // var sungeometry = new THREE.SphereGeometry(50, 13, 13)
-    // var sunmaterial = new THREE.MeshLambertMaterial()
-    // const sun = new THREE.Mesh(sungeometry, sunmaterial)
-
-    // scene.add(sun)
 
     // scene.add(globeBackground)
     scene.add(myGlobe)
@@ -144,8 +128,7 @@ export default function Globe(props) {
 
     camera.aspect = window.innerWidth / window.innerHeight
     camera.updateProjectionMatrix()
-    // camera.position.x = -400
-    // camera.position.z = 100
+
     camera.position.set(
       -415.2971330601325,
       157.35740158480883,
@@ -188,6 +171,10 @@ export default function Globe(props) {
     }
 
     animate()
+    setGlobeScene(scene)
+    setTimeout(() => {
+      props.setLoadingGlobe(false)
+    }, 1000)
   }, [])
   useEffect(() => {
     if (props.hoverFocusedMarker != null) {
@@ -236,6 +223,7 @@ export default function Globe(props) {
         .on("complete", () => {
           props.setVisible(true)
           props.setImage(marker.__data.image)
+          props.setImageCaption(marker.__data.unsplash_profile)
         })
         .start()
 
@@ -282,6 +270,25 @@ export default function Globe(props) {
       globe.customLayerData(props.markers)
     }
   }, [props.markers])
+
+  useEffect(() => {
+    console.log(globeScene)
+    if (props.enhanced == true) {
+      var backgroundgeometry = new THREE.SphereBufferGeometry(600, 15, 15)
+
+      var backgroundmaterial = new THREE.MeshBasicMaterial({
+        side: THREE.BackSide,
+        map: THREE.ImageUtils.loadTexture("/background.png")
+      })
+
+      const globeBackground = new THREE.Mesh(
+        backgroundgeometry,
+        backgroundmaterial
+      )
+
+      globeScene.add(globeBackground)
+    }
+  }, [props.enhanced])
 
   return null
 }
