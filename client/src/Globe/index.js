@@ -70,10 +70,8 @@ export default function Globe(props) {
             ev.data.target.__data.lng,
             1.1
           )
-          // focusCamera(ev.data.target.__data)
-          // orbitControls.enabled = false
+
           orbitControls.autoRotate = false
-          // console.log(orbitControls.dampingFactor)
           orbitControls.dampingFactor = 0
           let coords = {
             x: camera.position.x,
@@ -87,14 +85,6 @@ export default function Globe(props) {
               z: -14.427464555977274
             })
           }
-
-          var tween = new Tween(coords)
-            .to({ x: position.x, y: position.y, z: position.z }, 1000)
-            .easing(Easing.Quadratic.Out)
-            .on("update", () => {
-              camera.position.set(coords.x, coords.y, coords.z)
-            })
-            .start()
         })
 
         obj.on("mouseover", function(ev) {
@@ -257,12 +247,17 @@ export default function Globe(props) {
       // globeCamera.position.set(coords.x, coords.y, coords.z)
 
       var tween = new Tween(camCoords)
-        .to({ x: coords.x, y: coords.y, z: coords.z }, 1000)
+        .to({ x: coords.x, y: coords.y, z: coords.z }, 800)
         .easing(Easing.Quadratic.Out)
         .on("update", () => {
           globeCamera.position.set(camCoords.x, camCoords.y, camCoords.z)
         })
+        .on("complete", () => {
+          props.setVisible(true)
+          props.setImage(marker.__data.image)
+        })
         .start()
+
       globeControls.dampingFactor = 0
 
       setFocusedMarker(marker)
@@ -291,13 +286,17 @@ export default function Globe(props) {
             globeCamera.position.set(camCoords.x, camCoords.y, camCoords.z)
           })
           .start()
+
         globeControls.dampingFactor = 0.05
       }
     }
   }, [props.focusedMarker])
+
   if (props.focusedMarker != null) {
     markerObj[props.focusedMarker].scale.set(1.5, 1.5, 1.5)
   }
+
+  useEffect(() => {}, [props.markers])
 
   return null
 }

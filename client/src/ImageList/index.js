@@ -121,8 +121,11 @@ const ImageList = props => {
                   onClick={() => {
                     if (img.id != props.focusedMarker) {
                       props.setFocusedMarker(img.id)
+                      // props.setImage(img.image)
+                      // props.setVisible(true)
                     } else {
                       props.setFocusedMarker(null)
+                      props.setVisible(false)
                     }
                   }}
                   onMouseEnter={() => {

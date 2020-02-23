@@ -3,13 +3,16 @@ import ReactDOM from "react-dom"
 import axios from "axios"
 import Globe from "./Globe"
 import ImageList from "./ImageList"
-import Radium from "radium"
+import Viewer from "react-viewer"
+import ImgsViewer from "react-images-viewer"
 import "./App.css"
 
 function App() {
   const [markers, setMarkers] = useState([])
   const [focusedMarker, setFocusedMarker] = useState(null)
   const [hoverFocusedMarker, setHoverFocusedMarker] = useState(null)
+  const [visible, setVisible] = useState(false)
+  const [image, setImage] = useState(null)
 
   useEffect(() => {
     const fetchImageData = async () => {
@@ -30,20 +33,43 @@ function App() {
   }, [])
   return (
     <>
+      {focusedMarker != null && (
+        <ImgsViewer
+          imgs={[{ src: image }]}
+          isOpen={visible}
+          showCloseBtn={false}
+          backdropCloseable={true}
+          showImgCount={false}
+          onClickImg={() => {
+            setVisible(false)
+            setFocusedMarker(null)
+          }}
+          onClose={() => {
+            setVisible(false)
+            setFocusedMarker(null)
+          }}
+        />
+      )}
+
       {markers.length != 0 && (
         <Globe
           markers={markers}
           setFocusedMarker={setFocusedMarker}
           focusedMarker={focusedMarker}
           hoverFocusedMarker={hoverFocusedMarker}
+          setVisible={setVisible}
+          setImage={setImage}
         />
       )}
+
       {markers.length != 0 && (
         <ImageList
           images={markers}
           setFocusedMarker={setFocusedMarker}
           focusedMarker={focusedMarker}
           setHoverFocusedMarker={setHoverFocusedMarker}
+          setVisible={setVisible}
+          setImage={setImage}
         />
       )}
     </>
