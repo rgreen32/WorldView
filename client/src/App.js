@@ -5,7 +5,6 @@ import Globe from "./Globe"
 import ImageList from "./ImageList"
 import ImgsViewer from "react-images-viewer"
 import Sparkle from "react-sparkle"
-import "./App.css"
 
 function App() {
   const [markers, setMarkers] = useState([])
@@ -104,6 +103,16 @@ function App() {
         {enhanceHover && !loadingGlobe && <Sparkle />}
       </div>
       >
+      <h6
+        style={{
+          color: "white",
+          position: "absolute",
+          left: 30,
+          top: 100
+        }}
+      >
+        Powered by Unsplash.com
+      </h6>
     </>
   )
 }
