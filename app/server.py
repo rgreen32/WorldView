@@ -9,7 +9,7 @@ app = Flask(__name__)
 CORS(app)
 
 def thread_function():
-    collections = ["437316", "1155333", "228275", "2139765"]
+    collections = ["641217" "228275", "370126"]
     finder = ImageFinder(collections)
     finder.startLoop()
 

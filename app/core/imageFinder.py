@@ -23,7 +23,7 @@ class ImageFinder:
         print("Starting main loop...")
         api_requests = 0
         while(True):
-            if(api_requests > 1):
+            if(api_requests > 20):
                 tuples = []
                 for image in self.images:
                     tuples.append((image["url"], image["location"], image["gps"]["latitude"], image["gps"]["longitude"], image["userName"], image["portfolio"], image["unsplash_profile"]))
