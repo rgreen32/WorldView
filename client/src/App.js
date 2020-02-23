@@ -101,7 +101,7 @@ function App() {
       >
         <h1>Enhance</h1>
 
-        {enhanceHover && <Sparkle />}
+        {enhanceHover && !loadingGlobe && <Sparkle />}
       </div>
       >
     </>

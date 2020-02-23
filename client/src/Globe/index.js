@@ -272,7 +272,6 @@ export default function Globe(props) {
   }, [props.markers])
 
   useEffect(() => {
-    console.log(globeScene)
     if (props.enhanced == true) {
       var backgroundgeometry = new THREE.SphereBufferGeometry(600, 15, 15)
 

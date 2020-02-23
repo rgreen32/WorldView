@@ -20,7 +20,24 @@
   <body
     style="height: 100%; overflow: hidden; font-family: 'Poiret One', cursive;"
   >
+    <style>
+      #logo {
+        transition: transform 0.2s;
+      }
+
+      #logo:hover {
+        transform: scale(
+          1.5
+        ); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+      }
+    </style>
     <noscript>You need to enable JavaScript to run this app.</noscript>
+    <a
+      href="https://greenboy.io"
+      style="z-index: 50; position:fixed; top:25px; left:30px"
+      class="navbar-brand"
+      ><img id="logo" height="40px" width="40px" src="/logo.png"
+    /></a>
     <div
       id="globeContainer"
       style="height: 100%; width: 100%; z-index: 5; position: absolute;"
