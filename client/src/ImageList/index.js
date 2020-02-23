@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { Row, Col, Card, Button } from "reactstrap"
+import { Tween, Easing, update } from "es6-tween"
 
 const ImageList = props => {
   const [imageData, setImageData] = useState([])
@@ -28,7 +29,7 @@ const ImageList = props => {
 
     setCurrentPage(pageData[0])
     setPageIndex(0)
-  }, [])
+  }, [props.images])
   useEffect(() => {
     if (props.focusedMarker != null) {
       pages.forEach((page, x) => {
@@ -59,6 +60,31 @@ const ImageList = props => {
           className="text-center"
         >
           <div className="mt-3">
+            <img
+              id="refresh"
+              className="mr-3"
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                props.setFetchingData(true)
+              }}
+              onMouseEnter={() => {
+                let icon = document.getElementById("refresh")
+                console.log(icon)
+                let coords = { x: 0 }
+                var tween = new Tween(coords)
+                  .to({ x: 360 }, 1000)
+                  .easing(Easing.Quadratic.Out)
+                  .on("update", () => {
+                    icon.style.setProperty(
+                      "transform",
+                      `rotate(${coords.x}deg)`
+                    )
+                  })
+                  .start()
+              }}
+              src="/refresh.png"
+            ></img>
+
             {pages.map((page, index) => {
               if (index == pageIndex) {
                 return (
@@ -121,8 +147,6 @@ const ImageList = props => {
                   onClick={() => {
                     if (img.id != props.focusedMarker) {
                       props.setFocusedMarker(img.id)
-                      // props.setImage(img.image)
-                      // props.setVisible(true)
                     } else {
                       props.setFocusedMarker(null)
                       props.setVisible(false)

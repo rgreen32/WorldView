@@ -13,24 +13,28 @@ function App() {
   const [hoverFocusedMarker, setHoverFocusedMarker] = useState(null)
   const [visible, setVisible] = useState(false)
   const [image, setImage] = useState(null)
+  const [fetchingData, setFetchingData] = useState(true)
 
   useEffect(() => {
-    const fetchImageData = async () => {
-      await axios.get("http://127.0.0.1:5000/").then(res => {
-        const images = res.data
+    if (fetchingData) {
+      const fetchImageData = async () => {
+        await axios.get("http://127.0.0.1:5000/").then(res => {
+          const images = res.data
 
-        images.forEach((entry, index) => {
-          entry.id = index
-          entry.size = 0.04
-          entry.color = "gold"
-          entry.alt = 0.02
-          entry.radius = 2
+          images.forEach((entry, index) => {
+            entry.id = index
+            entry.size = 0.04
+            entry.color = "gold"
+            entry.alt = 0.02
+            entry.radius = 2
+          })
+          setMarkers(images)
         })
-        setMarkers(images)
-      })
+      }
+      fetchImageData()
+      setFetchingData(false)
     }
-    fetchImageData()
-  }, [])
+  }, [fetchingData])
   return (
     <>
       {focusedMarker != null && (
@@ -51,16 +55,14 @@ function App() {
         />
       )}
 
-      {markers.length != 0 && (
-        <Globe
-          markers={markers}
-          setFocusedMarker={setFocusedMarker}
-          focusedMarker={focusedMarker}
-          hoverFocusedMarker={hoverFocusedMarker}
-          setVisible={setVisible}
-          setImage={setImage}
-        />
-      )}
+      <Globe
+        markers={markers}
+        setFocusedMarker={setFocusedMarker}
+        focusedMarker={focusedMarker}
+        hoverFocusedMarker={hoverFocusedMarker}
+        setVisible={setVisible}
+        setImage={setImage}
+      />
 
       {markers.length != 0 && (
         <ImageList
@@ -70,6 +72,7 @@ function App() {
           setHoverFocusedMarker={setHoverFocusedMarker}
           setVisible={setVisible}
           setImage={setImage}
+          setFetchingData={setFetchingData}
         />
       )}
     </>

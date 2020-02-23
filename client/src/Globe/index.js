@@ -64,20 +64,9 @@ export default function Globe(props) {
         obj.on("click", function(ev) {
           props.setFocusedMarker(ev.data.target.__data.id)
 
-          // setInitialCameraPosition(camera.position)
-          let position = myGlobe.getCoords(
-            ev.data.target.__data.lat,
-            ev.data.target.__data.lng,
-            1.1
-          )
-
           orbitControls.autoRotate = false
           orbitControls.dampingFactor = 0
-          let coords = {
-            x: camera.position.x,
-            y: camera.position.y,
-            z: camera.position.z
-          }
+
           if (cameraFocused != true) {
             setInitialCameraPosition({
               x: -415.2971330601325,
@@ -164,13 +153,7 @@ export default function Globe(props) {
     )
 
     setGlobeCamera(camera)
-    // camera.fov = 100
-    // camera.updateProjectionMatrix()
-    // console.log(camera.position)
 
-    // Add camera controls
-
-    // orbitControls.autoRotate = true
     orbitControls.autoRotateSpeed = 3.0
     orbitControls.enableDamping = true
     orbitControls.enablePan = false
@@ -187,7 +170,6 @@ export default function Globe(props) {
       renderer.setSize(window.innerWidth, window.innerHeight)
     }
     window.addEventListener("resize", onWindowResize, false)
-    var INTERSECTED
 
     function render() {
       // find intersections
@@ -195,7 +177,7 @@ export default function Globe(props) {
       ;["x", "y", "z"].forEach(function(axis) {
         cloudLayer.rotation[axis] += Math.random() / 1000
       })
-      // cloudLayer.rotation.y += 0.005
+
       orbitControls.update()
       renderer.render(scene, camera)
     }
@@ -244,10 +226,9 @@ export default function Globe(props) {
           z: camCoords.z
         })
       }
-      // globeCamera.position.set(coords.x, coords.y, coords.z)
 
       var tween = new Tween(camCoords)
-        .to({ x: coords.x, y: coords.y, z: coords.z }, 800)
+        .to({ x: coords.x, y: coords.y, z: coords.z }, 1600)
         .easing(Easing.Quadratic.Out)
         .on("update", () => {
           globeCamera.position.set(camCoords.x, camCoords.y, camCoords.z)
@@ -296,7 +277,11 @@ export default function Globe(props) {
     markerObj[props.focusedMarker].scale.set(1.5, 1.5, 1.5)
   }
 
-  useEffect(() => {}, [props.markers])
+  useEffect(() => {
+    if (globe) {
+      globe.customLayerData(props.markers)
+    }
+  }, [props.markers])
 
   return null
 }
