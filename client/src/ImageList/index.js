@@ -49,143 +49,132 @@ const ImageList = props => {
 
   return (
     <>
-      <Row
-        style={{ margin: 0, pointerEvents: "all" }}
-        className="justify-content-end"
+      <Col
+        style={{
+          margin: 0,
+          position: "absolute",
+          minWidth: "200px",
+          height: "100%"
+        }}
+        sm={3}
+        className="text-center"
       >
-        <Col
-          style={{
-            margin: 0,
-            position: "absolute",
-            minWidth: "200px",
-            height: "100%"
-          }}
-          sm={3}
-          className="text-center"
-        >
-          <div className="mt-3">
-            <img
-              id="refresh"
-              className="mr-3"
-              style={{ cursor: "pointer" }}
-              onMouseEnter={() => {
-                let icon = document.getElementById("refresh")
-                let coords = { x: 0 }
-                var tween = new Tween(coords)
-                  .to({ x: 360 }, 1000)
-                  .easing(Easing.Quadratic.Out)
-                  .on("update", () => {
-                    icon.style.setProperty(
-                      "transform",
-                      `rotate(${coords.x}deg)`
-                    )
-                  })
-                  .start()
-              }}
-              onClick={() => {
-                props.setFetchingData(true)
-                let icon = document.getElementById("refresh")
-                let coords = { x: 0 }
-                var tween = new Tween(coords)
-                  .to({ x: 720 }, 1000)
-                  .easing(Easing.Quadratic.Out)
-                  .on("update", () => {
-                    icon.style.setProperty(
-                      "transform",
-                      `rotate(${coords.x}deg)`
-                    )
-                  })
-                  .start()
-              }}
-              src="/refresh.png"
-            ></img>
+        <div className="mt-3">
+          <img
+            id="refresh"
+            className="mr-3"
+            style={{ cursor: "pointer" }}
+            onMouseEnter={() => {
+              let icon = document.getElementById("refresh")
+              let coords = { x: 0 }
+              var tween = new Tween(coords)
+                .to({ x: 360 }, 1000)
+                .easing(Easing.Quadratic.Out)
+                .on("update", () => {
+                  icon.style.setProperty("transform", `rotate(${coords.x}deg)`)
+                })
+                .start()
+            }}
+            onClick={() => {
+              props.setFetchingData(true)
+              let icon = document.getElementById("refresh")
+              let coords = { x: 0 }
+              var tween = new Tween(coords)
+                .to({ x: 720 }, 1000)
+                .easing(Easing.Quadratic.Out)
+                .on("update", () => {
+                  icon.style.setProperty("transform", `rotate(${coords.x}deg)`)
+                })
+                .start()
+            }}
+            src="/refresh.png"
+          ></img>
 
-            {pages.map((page, index) => {
-              if (index == pageIndex) {
-                return (
-                  <Button
-                    key={index}
-                    color="light"
-                    outline={index != pageIndex}
-                    style={{ borderRadius: 0 }}
-                    onClick={() => {
-                      setCurrentPage(pages[index])
-                      setPageIndex(index)
-                    }}
-                  >
-                    {index + 1}
-                  </Button>
-                )
-              } else {
-                return (
-                  <Button
-                    key={index}
-                    color="light"
-                    outline={index != pageIndex}
-                    style={{ borderRadius: 0 }}
-                    onClick={() => {
-                      setCurrentPage(pages[index])
-                      setPageIndex(index)
-                    }}
-                  >
-                    {index + 1}
-                  </Button>
-                )
-              }
-            })}
-          </div>
-          {currentPage.map((img, index) => {
-            return (
-              <Card
-                key={index}
-                style={{
-                  padding: 0,
-                  backgroundColor: "black"
-                }}
-                className="mt-3"
-                body
-              >
+          {pages.map((page, index) => {
+            if (index == pageIndex) {
+              return (
                 <Button
+                  key={index}
                   color="light"
-                  outline={img.id != props.focusedMarker}
-                  style={{
-                    padding: 0,
-                    width: "100%",
-
-                    minHeight: "100px",
-
-                    height: "100%",
-                    textAlign: "right",
-                    borderRadius: 0,
-                    borderWidth: "2px"
-                  }}
+                  outline={index != pageIndex}
+                  style={{ borderRadius: 0 }}
                   onClick={() => {
-                    if (img.id != props.focusedMarker) {
-                      props.setFocusedMarker(img.id)
-                    } else {
-                      props.setFocusedMarker(null)
-                      props.setVisible(false)
-                    }
-                  }}
-                  onMouseEnter={() => {
-                    props.setHoverFocusedMarker(img.id)
-                  }}
-                  onMouseOut={() => {
-                    props.setHoverFocusedMarker(null)
+                    setCurrentPage(pages[index])
+                    setPageIndex(index)
                   }}
                 >
-                  <h5 className="mt-2 mr-2" style={{}}>
-                    {img.location}
-                  </h5>
-                  <h6 className="my-2 mr-2" style={{}}>
-                    By {img.userName}
-                  </h6>
+                  {index + 1}
                 </Button>
-              </Card>
-            )
+              )
+            } else {
+              return (
+                <Button
+                  key={index}
+                  color="light"
+                  outline={index != pageIndex}
+                  style={{ borderRadius: 0 }}
+                  onClick={() => {
+                    setCurrentPage(pages[index])
+                    setPageIndex(index)
+                  }}
+                >
+                  {index + 1}
+                </Button>
+              )
+            }
           })}
-        </Col>
-      </Row>
+        </div>
+        {currentPage.map((img, index) => {
+          return (
+            <Card
+              key={index}
+              style={{
+                padding: 0,
+                backgroundColor: "black"
+              }}
+              className="mt-3"
+              body
+            >
+              <Button
+                color="light"
+                outline={img.id != props.focusedMarker}
+                style={{
+                  padding: 0,
+                  width: "100%",
+
+                  minHeight: "100px",
+
+                  height: "100%",
+                  textAlign: "right",
+                  borderRadius: 0,
+                  borderWidth: "2px"
+                }}
+                onClick={() => {
+                  if (img.id != props.focusedMarker) {
+                    props.setFocusedMarker(img.id)
+                  } else {
+                    props.setFocusedMarker(null)
+                    props.setVisible(false)
+                  }
+                }}
+                onMouseEnter={() => {
+                  props.setHoverFocusedMarker(img.id)
+                }}
+                onMouseOut={() => {
+                  props.setHoverFocusedMarker(null)
+                }}
+              >
+                <h5 className="mt-2 mr-2" style={{}}>
+                  {img.location}
+                </h5>
+                <h6 className="my-2 mr-2" style={{}}>
+                  By {img.userName}
+                </h6>
+              </Button>
+            </Card>
+          )
+        })}
+      </Col>
     </>
   )
 }

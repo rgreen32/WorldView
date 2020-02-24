@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react"
-import { Button } from "reactstrap"
+import { Button, Spinner, Row, Col } from "reactstrap"
 import axios from "axios"
 import Globe from "./Globe"
 import ImageList from "./ImageList"
 import ImgsViewer from "react-images-viewer"
 import Sparkle from "react-sparkle"
+import { toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 function App() {
   const [markers, setMarkers] = useState([])
@@ -17,24 +19,32 @@ function App() {
   const [fetchingData, setFetchingData] = useState(true)
   const [enhanceHover, setEnhanceHover] = useState(false)
   const [enhanced, setEnhanced] = useState(false)
+  toast.configure()
 
   useEffect(() => {
     if (fetchingData) {
       const fetchImageData = async () => {
-        await axios.get("http://127.0.0.1:5000/").then(res => {
-          const images = res.data
+        try {
+          await axios.get("http://127.0.0.1:5000/").then(res => {
+            const images = res.data
 
-          images.forEach((entry, index) => {
-            entry.id = index
-            entry.size = 0.04
-            entry.color = "gold"
-            entry.alt = 0.02
-            entry.radius = 2
+            images.forEach((entry, index) => {
+              entry.id = index
+              entry.size = 0.04
+              entry.color = "gold"
+              entry.alt = 0.02
+              entry.radius = 2
+            })
+            setMarkers(images)
           })
-          setMarkers(images)
-        })
+        } catch (error) {
+          console.log("Hi")
+          toast.error("Couldn't get image list. :(")
+        }
       }
+
       fetchImageData()
+
       setFetchingData(false)
     }
   }, [fetchingData])
@@ -68,17 +78,41 @@ function App() {
         setLoadingGlobe={setLoadingGlobe}
         enhanced={enhanced}
       />
-      {markers.length != 0 && !loadingGlobe && (
-        <ImageList
-          images={markers}
-          setFocusedMarker={setFocusedMarker}
-          focusedMarker={focusedMarker}
-          setHoverFocusedMarker={setHoverFocusedMarker}
-          setVisible={setVisible}
-          setImage={setImage}
-          setFetchingData={setFetchingData}
-        />
-      )}
+      <Row
+        style={{ margin: 0, pointerEvents: "all" }}
+        className="justify-content-end"
+      >
+        {/* <div style={{ color: "white", position: "relative" }}>X</div> */}
+        {markers.length != 0 && !loadingGlobe ? (
+          <ImageList
+            images={markers}
+            setFocusedMarker={setFocusedMarker}
+            focusedMarker={focusedMarker}
+            setHoverFocusedMarker={setHoverFocusedMarker}
+            setVisible={setVisible}
+            setImage={setImage}
+            setFetchingData={setFetchingData}
+          />
+        ) : fetchingData ? (
+          <Col
+            style={{
+              margin: 0,
+              position: "absolute",
+              minWidth: "200px",
+              height: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center"
+            }}
+            sm={3}
+            className="text-center"
+          >
+            <Spinner color="secondary" />
+          </Col>
+        ) : (
+          <></>
+        )}
+      </Row>
       <div
         style={{
           color: "white",

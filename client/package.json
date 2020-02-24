@@ -20,6 +20,7 @@
     "react-images-viewer": "^1.6.2",
     "react-scripts": "3.4.0",
     "react-sparkle": "^1.0.5",
+    "react-toastify": "^5.5.0",
     "react-viewer": "^3.1.0",
     "reactstrap": "^8.4.1",
     "three": "^0.113.2",
