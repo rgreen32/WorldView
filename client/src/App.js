@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react"
-import { Button, Spinner, Row, Col } from "reactstrap"
+import { Spinner, Row, Col } from "reactstrap"
 import axios from "axios"
 import Globe from "./Globe"
 import ImageList from "./ImageList"
 import ImgsViewer from "react-images-viewer"
 import Sparkle from "react-sparkle"
+import { Tween, Easing, update } from "es6-tween"
 import { toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 
@@ -82,7 +83,6 @@ function App() {
         style={{ margin: 0, pointerEvents: "all" }}
         className="justify-content-end"
       >
-        {/* <div style={{ color: "white", position: "relative" }}>X</div> */}
         {markers.length != 0 && !loadingGlobe ? (
           <ImageList
             images={markers}
@@ -113,6 +113,18 @@ function App() {
           <></>
         )}
       </Row>
+      {/* <Row
+        style={{ position: "absolute", bottom: 80, width: "100%" }}
+        className="justify-content-center"
+      >
+        <Col className="text-center">
+          <div style={{ color: "white" }}>
+            <h4 id="quote" style={{ opacity: 0 }}>
+              - What a wonderful world
+            </h4>
+          </div>
+        </Col>
+      </Row> */}
       <div
         style={{
           color: "white",
