@@ -1,12 +1,11 @@
-from flask import Flask, jsonify
+from flask import jsonify
 from flask_cors import CORS
 from app.core.imageFinder import ImageFinder
 from app.core.imageHandler import ImageHandler
 import threading
 import asyncio
 
-app = Flask(__name__)
-CORS(app)
+from app import app
 
 def thread_function():
     collections = ["641217" "228275", "370126", "3129418"]
@@ -18,7 +17,7 @@ imageFinderThread.start()
 
 imageHandler = ImageHandler()
 
-@app.route("/")
+@app.route("/images")
 def index():
     images = imageHandler.grabRandomImages("15")
     return jsonify(images)

@@ -22,11 +22,15 @@ function App() {
   const [enhanced, setEnhanced] = useState(false)
   toast.configure()
 
+  // useEffect(() => {
+  //   console.log("Ready?", loadingGlobe)
+  // }, [loadingGlobe])
+
   useEffect(() => {
     if (fetchingData) {
       const fetchImageData = async () => {
         try {
-          await axios.get("http://127.0.0.1:5000/").then(res => {
+          await axios.get("./images").then(res => {
             const images = res.data
 
             images.forEach((entry, index) => {
@@ -51,6 +55,34 @@ function App() {
   }, [fetchingData])
   return (
     <>
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
+            #logo {
+              transition: transform 0.2s;
+            }
+      
+            #logo:hover {
+              transform: scale(
+                1.5
+              ); 
+            }
+    `
+        }}
+      />
+      <a
+        href="https://greenboy.io"
+        style={{
+          pointerEvents: "all",
+          zIndex: 50,
+          position: "fixed",
+          top: "25px",
+          left: "30px"
+        }}
+        class="navbar-brand"
+      >
+        <img id="logo" height="40px" width="40px" src="/logo.png" />
+      </a>
       {focusedMarker != null && (
         <ImgsViewer
           imgs={[{ src: image, caption: imageCaption }]}
@@ -113,18 +145,19 @@ function App() {
           <></>
         )}
       </Row>
-      {/* <Row
-        style={{ position: "absolute", bottom: 80, width: "100%" }}
-        className="justify-content-center"
+      <Row
+        style={{
+          position: "absolute",
+          height: "100%",
+          width: "100%",
+          pointerEvents: "none"
+        }}
+        className="justify-content-center align-items-center"
       >
         <Col className="text-center">
-          <div style={{ color: "white" }}>
-            <h4 id="quote" style={{ opacity: 0 }}>
-              - What a wonderful world
-            </h4>
-          </div>
+          {loadingGlobe && <Spinner color="secondary" />}
         </Col>
-      </Row> */}
+      </Row>
       <div
         style={{
           color: "white",

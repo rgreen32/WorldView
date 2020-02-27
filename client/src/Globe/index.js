@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import ThreeGlobe from "three-globe"
+import ThreeGlobe from "./three-globe"
 import * as THREE from "three"
 import { createGlowMesh, defaultOptions } from "three-glow-mesh"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
@@ -8,6 +8,7 @@ import { Tween, Easing, update } from "es6-tween"
 
 export default function Globe(props) {
   const [globe, setGlobe] = useState()
+  // const [globeReady, setGlobeReady] = useState(false)
   const [globeScene, setGlobeScene] = useState()
   const [globeCamera, setGlobeCamera] = useState()
   const [globeRenderer, setGlobeRenderer] = useState()
@@ -43,7 +44,7 @@ export default function Globe(props) {
     orbitControls.autoRotate = true
     const interaction = new Interaction(renderer, scene, camera)
     var marks = {}
-    const myGlobe = new ThreeGlobe()
+    const myGlobe = new ThreeGlobe({ onReady: props.setLoadingGlobe })
       .globeImageUrl("/map.jpg")
       .bumpImageUrl("/bumpmap.jpg")
       .customLayerData(props.markers)
@@ -172,10 +173,15 @@ export default function Globe(props) {
 
     animate()
     setGlobeScene(scene)
-    setTimeout(() => {
-      props.setLoadingGlobe(false)
-    }, 1000)
+    // setTimeout(() => {
+    //   props.setLoadingGlobe
+    // }, 1000)
   }, [])
+
+  // useEffect(() => {
+  //   console.log("ready?")
+  // }, [props.setLoadingGlobe])
+
   useEffect(() => {
     if (props.hoverFocusedMarker != null) {
       markerObj[props.hoverFocusedMarker].scale.set(1.5, 1.5, 1.5)
