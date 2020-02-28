@@ -9,15 +9,15 @@ class ImageFinder:
         self.key = os.getenv("WORLDVIEW_API_KEY")
         self.images = []
         self.collections = collections
-        self.unsplashURL = "https://api.unsplash.com/photos/random/?collections=" + ",".join(collections) + "&client_id=" + self.key
+        self.unsplashURL = "https://api.unsplash.com/photos/random/?collections=" + ",".join(collections) + "&orientation=landscape&count=30&client_id=" + self.key
 
     def fetchImage(self):
         res = requests.get(self.unsplashURL).json()
-        if(res["location"]["position"]["latitude"] != None and res["location"]["position"]["longitude"] != None and res["width"] > res["height"] ):
-
-            return {"url": res["urls"]["regular"],"location":res["location"]["name"] ,"gps":res["location"]["position"], "userName": res["user"]["name"], "portfolio":res["user"]["portfolio_url"], "unsplash_profile":res["user"]["links"]["html"]}
-        else:
-            return None
+        images = []
+        for image in res:
+            if(image["location"]["position"]["latitude"] != None and image["location"]["position"]["longitude"] != None):
+               images.append({"url": image["urls"]["regular"],"location":image["location"]["name"] ,"gps":image["location"]["position"], "userName": image["user"]["name"], "portfolio":image["user"]["portfolio_url"], "unsplash_profile":image["user"]["links"]["html"]})
+        return images
             
     
     def startLoop(self):
@@ -47,7 +47,7 @@ class ImageFinder:
             imgData = self.fetchImage()
             api_requests+=1
             if(imgData != None):
-                self.images.append(imgData)
+                self.images = self.images + imgData
             time.sleep(1)
             
 

@@ -3,7 +3,6 @@ from flask_cors import CORS
 from app.core.imageFinder import ImageFinder
 from app.core.imageHandler import ImageHandler
 import threading
-import asyncio
 
 from app import app
 
@@ -17,7 +16,7 @@ imageFinderThread.start()
 
 imageHandler = ImageHandler()
 
-@app.route("/images")
+@app.route("/worldview/images")
 def index():
     images = imageHandler.grabRandomImages("15")
     return jsonify(images)

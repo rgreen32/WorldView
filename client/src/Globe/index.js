@@ -45,8 +45,10 @@ export default function Globe(props) {
     const interaction = new Interaction(renderer, scene, camera)
     var marks = {}
     const myGlobe = new ThreeGlobe({ onReady: props.setLoadingGlobe })
-      .globeImageUrl("/map.jpg")
-      .bumpImageUrl("/bumpmap.jpg")
+      .globeImageUrl(
+        "https://s3-us-west-2.amazonaws.com/s.cdpn.io/141228/earthmap1k.jpg"
+      )
+      .bumpImageUrl("./bumpmap.jpg")
       .customLayerData(props.markers)
       .customThreeObject(d => {
         var orignalMesh = new THREE.Mesh(
@@ -92,7 +94,7 @@ export default function Globe(props) {
     var cloudsGeometry = new THREE.SphereGeometry(101, 75, 75)
     var cloudsMaterial = new THREE.MeshLambertMaterial({
       transparent: true,
-      map: THREE.ImageUtils.loadTexture("/clouds.png")
+      map: THREE.ImageUtils.loadTexture("./clouds.png")
     })
     cloudsMaterial.opacity = 0.3
 
@@ -283,7 +285,7 @@ export default function Globe(props) {
 
       var backgroundmaterial = new THREE.MeshBasicMaterial({
         side: THREE.BackSide,
-        map: THREE.ImageUtils.loadTexture("/background.png")
+        map: THREE.ImageUtils.loadTexture("./background.png")
       })
 
       const globeBackground = new THREE.Mesh(

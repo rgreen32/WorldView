@@ -1,6 +1,7 @@
 {
   "name": "reactclient",
   "version": "0.1.0",
+  "homepage": "https://greenboy.io/worldview",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.27",

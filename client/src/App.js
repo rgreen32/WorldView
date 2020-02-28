@@ -43,7 +43,6 @@ function App() {
             setMarkers(images)
           })
         } catch (error) {
-          console.log("Hi")
           toast.error("Couldn't get image list. :(")
         }
       }
@@ -81,7 +80,7 @@ function App() {
         }}
         class="navbar-brand"
       >
-        <img id="logo" height="40px" width="40px" src="/logo.png" />
+        <img id="logo" height="40px" width="40px" src="./logo.png" />
       </a>
       {focusedMarker != null && (
         <ImgsViewer

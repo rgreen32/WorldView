@@ -87,7 +87,7 @@ const ImageList = props => {
                 })
                 .start()
             }}
-            src="/refresh.png"
+            src="./refresh.png"
           ></img>
 
           {pages.map((page, index) => {
@@ -141,9 +141,7 @@ const ImageList = props => {
                 style={{
                   padding: 0,
                   width: "100%",
-
                   minHeight: "100px",
-
                   height: "100%",
                   textAlign: "right",
                   borderRadius: 0,
