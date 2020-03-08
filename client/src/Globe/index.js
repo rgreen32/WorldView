@@ -45,9 +45,7 @@ export default function Globe(props) {
     const interaction = new Interaction(renderer, scene, camera)
     var marks = {}
     const myGlobe = new ThreeGlobe({ onReady: props.setLoadingGlobe })
-      .globeImageUrl(
-        "https://s3-us-west-2.amazonaws.com/s.cdpn.io/141228/earthmap1k.jpg"
-      )
+      .globeImageUrl("./map.jpg")
       .bumpImageUrl("./bumpmap.jpg")
       .customLayerData(props.markers)
       .customThreeObject(d => {
