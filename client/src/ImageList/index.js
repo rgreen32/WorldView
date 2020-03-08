@@ -56,7 +56,7 @@ const ImageList = props => {
           minWidth: "200px",
           height: "100%"
         }}
-        sm={3}
+        xs={3}
         className="text-center"
       >
         <div className="mt-3">

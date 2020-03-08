@@ -99,7 +99,6 @@ export default function Globe(props) {
     const cloudLayer = new THREE.Mesh(cloudsGeometry, cloudsMaterial)
     setCloudLayer(cloudLayer)
 
-    // scene.add(globeBackground)
     scene.add(myGlobe)
     scene.add(cloudLayer)
 
@@ -138,11 +137,10 @@ export default function Globe(props) {
 
     setGlobeCamera(camera)
 
-    orbitControls.autoRotateSpeed = 3.0
+    orbitControls.autoRotateSpeed = 1.0
     orbitControls.enableDamping = true
     orbitControls.enablePan = false
     orbitControls.minDistance = 101
-    orbitControls.rotateSpeed = 5
     orbitControls.zoomSpeed = 0.8
     orbitControls.rotateSpeed = 1.5
     orbitControls.saveState()
@@ -173,14 +171,7 @@ export default function Globe(props) {
 
     animate()
     setGlobeScene(scene)
-    // setTimeout(() => {
-    //   props.setLoadingGlobe
-    // }, 1000)
   }, [])
-
-  // useEffect(() => {
-  //   console.log("ready?")
-  // }, [props.setLoadingGlobe])
 
   useEffect(() => {
     if (props.hoverFocusedMarker != null) {
