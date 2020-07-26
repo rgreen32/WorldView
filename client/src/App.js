@@ -141,8 +141,8 @@ function App() {
             <Spinner color="secondary" />
           </Col>
         ) : (
-          <></>
-        )}
+              <></>
+            )}
       </Row>
       <Row
         style={{
@@ -180,7 +180,7 @@ function App() {
 
         {enhanceHover && !loadingGlobe && <Sparkle />}
       </div>
-      >
+
       <h6
         style={{
           color: "white",
