@@ -38,7 +38,6 @@ jobs:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
-#         port: ${{ secrets.PORT }}
-#         source: "tests/a.txt,tests/b.txt"
-#         target: "test"
+        source: "wsgi.py"
+        target: "test"
 
