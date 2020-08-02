@@ -43,9 +43,6 @@ const ImageList = props => {
     }
   }, [props.focusedMarker])
 
-  // useEffect(()=>{
-
-  // })
 
   return (
     <>
@@ -87,7 +84,7 @@ const ImageList = props => {
                 })
                 .start()
             }}
-            src="./refresh.png"
+            src={`${window.location.protocol}//${window.location.host}${window.location.pathname}/refresh.png`}
           ></img>
 
           {pages.map((page, index) => {

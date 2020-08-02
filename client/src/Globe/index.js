@@ -45,8 +45,8 @@ export default function Globe(props) {
     const interaction = new Interaction(renderer, scene, camera)
     var marks = {}
     const myGlobe = new ThreeGlobe({ onReady: props.setLoadingGlobe })
-      .globeImageUrl("./map.jpg")
-      .bumpImageUrl("./bumpmap.jpg")
+      .globeImageUrl(`${window.location.protocol}//${window.location.host}${window.location.pathname}/map.jpg`)
+      .bumpImageUrl(`${window.location.protocol}//${window.location.host}${window.location.pathname}/bumpmap.jpg`)
       .customLayerData(props.markers)
       .customThreeObject(d => {
         var orignalMesh = new THREE.Mesh(
@@ -63,7 +63,7 @@ export default function Globe(props) {
         Object.assign(obj.position, myGlobe.getCoords(d.lat, d.lng, d.alt))
         marks[d.id] = obj
         obj.cursor = "pointer"
-        obj.on("click", function(ev) {
+        obj.on("click", function (ev) {
           props.setFocusedMarker(ev.data.target.__data.id)
 
           orbitControls.autoRotate = false
@@ -78,11 +78,11 @@ export default function Globe(props) {
           }
         })
 
-        obj.on("mouseover", function(ev) {
+        obj.on("mouseover", function (ev) {
           ev.target.scale.set(1.5, 1.5, 1.5)
         })
 
-        obj.on("mouseout", function(ev) {
+        obj.on("mouseout", function (ev) {
           ev.data.target.scale.set(1, 1, 1)
         })
       })
@@ -92,7 +92,7 @@ export default function Globe(props) {
     var cloudsGeometry = new THREE.SphereGeometry(101, 75, 75)
     var cloudsMaterial = new THREE.MeshLambertMaterial({
       transparent: true,
-      map: THREE.ImageUtils.loadTexture("./clouds.png")
+      map: THREE.ImageUtils.loadTexture(`${window.location.protocol}//${window.location.host}${window.location.pathname}/clouds.png`)
     })
     cloudsMaterial.opacity = 0.3
 
@@ -156,7 +156,7 @@ export default function Globe(props) {
     function render() {
       // find intersections
 
-      ;["x", "y", "z"].forEach(function(axis) {
+      ;["x", "y", "z"].forEach(function (axis) {
         cloudLayer.rotation[axis] += Math.random() / 1000
       })
 
@@ -274,7 +274,7 @@ export default function Globe(props) {
 
       var backgroundmaterial = new THREE.MeshBasicMaterial({
         side: THREE.BackSide,
-        map: THREE.ImageUtils.loadTexture("./background.png")
+        map: THREE.ImageUtils.loadTexture(`${window.location.protocol}//${window.location.host}${window.location.pathname}/background.png`)
       })
 
       const globeBackground = new THREE.Mesh(
