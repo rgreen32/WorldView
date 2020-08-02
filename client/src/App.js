@@ -22,15 +22,12 @@ function App() {
   const [enhanced, setEnhanced] = useState(false)
   toast.configure()
 
-  // useEffect(() => {
-  //   console.log("Ready?", loadingGlobe)
-  // }, [loadingGlobe])
 
   useEffect(() => {
     if (fetchingData) {
       const fetchImageData = async () => {
         try {
-          await axios.get("./images").then(res => {
+          await axios.get(`${window.location.protocol}//${window.location.host}/worldview/images?count=15`).then(res => {
             const images = res.data
 
             images.forEach((entry, index) => {
@@ -80,7 +77,7 @@ function App() {
         }}
         class="navbar-brand"
       >
-        <img id="logo" height="40px" width="40px" src="./logo.png" />
+        <img id="logo" height="40px" width="40px" src={`${window.location.protocol}//${window.location.host}${window.location.pathname}/logo.png`} />
       </a>
       {focusedMarker != null && (
         <ImgsViewer

@@ -1,4 +1,4 @@
-from flask import jsonify
+from flask import jsonify, request
 from flask_cors import CORS
 from app.core.imageFinder import ImageFinder
 from app.core.imageHandler import ImageHandler
@@ -18,12 +18,13 @@ def thread_function():
     finder = ImageFinder(collections)
     finder.startLoop()
 
-imageFinderThread =  threading.Thread(target=thread_function)
+imageFinderThread = threading.Thread(target=thread_function)
 imageFinderThread.start()
 
 imageHandler = ImageHandler()
 
 @app.route("/worldview/images")
 def index():
-    images = imageHandler.grabRandomImages("15")
+    image_count = request.args["count"]
+    images = imageHandler.grabRandomImages(image_count)
     return jsonify(images)

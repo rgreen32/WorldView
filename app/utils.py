@@ -12,15 +12,18 @@ def cursor_to_dict(cursor):
 
 def ensure_schema():
     logger.info("ensuring schema")
-    sql = read_sql_file("./app/sql/create_images_table.sql")
+    sql = read_sql_file("./app/sql/images_table.sql")
     conn = sqlite3.connect(os.getenv("DBFILE_PATH"))
     c = conn.cursor()
     c.execute("SELECT sql FROM sqlite_master WHERE name = 'Images'")
     result = c.fetchone()
-    curent_schema_sql = result[0].replace(" ","")
-    new_schema_sql = sql.replace(" ", "").replace(";","")
-    if curent_schema_sql != new_schema_sql:
-        c.execute("DROP TABLE Images")
+    if result != None:
+        curent_schema_sql = result[0].replace(" ","")
+        new_schema_sql = sql.replace(" ", "").replace(";","")
+        if curent_schema_sql != new_schema_sql:
+            c.execute("DROP TABLE Images")
+            c.execute(sql)
+    else:
         c.execute(sql)
     conn.close()
 
