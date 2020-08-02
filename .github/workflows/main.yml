@@ -39,5 +39,5 @@ jobs:
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
         source: "wsgi.py"
-        target: "test"
+        target: "/test/"
 
