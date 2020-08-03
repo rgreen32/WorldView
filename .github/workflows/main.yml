@@ -57,7 +57,6 @@ jobs:
         password: ${{ secrets.PASSWORD }}
         source: "wsgi.py, app"
         target: "/test"
-        strip_components: 2
         
         
         
