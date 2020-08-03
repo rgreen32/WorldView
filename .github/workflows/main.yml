@@ -48,3 +48,17 @@ jobs:
         source: "client/build/*"
         target: "/var/www/greenboy.io/worldview/html"
         strip_components: 2
+
+    - name: copy file via ssh password
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        source: "wsgi.py, app"
+        target: "/test"
+        strip_components: 2
+        
+        
+        
+  
