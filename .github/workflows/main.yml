@@ -24,13 +24,16 @@ jobs:
 
     # Runs a single command using the runners shell
     - name: set venv home directory
-      run: export PIPENV_VENV_IN_PROJECT="enabled"
+      run: |
+        export PIPENV_VENV_IN_PROJECT="enabled"
+        pip install pipenv
+        export pipenv install
       
-    - name: install pipenv
-      run: pip install pipenv
+#     - name: install pipenv
+#       run: pip install pipenv
       
-    - name: install dependencies
-      run: export pipenv install
+#     - name: install dependencies
+#       run: export pipenv install
 
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
