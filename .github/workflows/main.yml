@@ -55,7 +55,7 @@ jobs:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
-        source: "wsgi.py, app"
+        source: "wsgi.py, app, Pipfile, Pipfile.lock"
         target: "/srv/worldview"
         
         
