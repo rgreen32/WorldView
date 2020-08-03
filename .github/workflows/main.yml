@@ -23,18 +23,12 @@ jobs:
     - uses: actions/checkout@v2
 
     # Runs a single command using the runners shell
-    - name: set venv home directory
-      run: |
-        export PIPENV_VENV_IN_PROJECT="enabled"
-        pip install --upgrade pip
-        pip install --user pipenv
-        pipenv install
-      
-#     - name: install pipenv
-#       run: pip install pipenv
-      
-#     - name: install dependencies
-#       run: export pipenv install
+#     - name: set venv home directory
+#       run: |
+#         export PIPENV_VENV_IN_PROJECT="enabled"
+#         pip install --upgrade pip
+#         pip install --user pipenv
+#         pipenv install
 
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
@@ -68,9 +62,18 @@ jobs:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
-        source: "wsgi.py, app, Pipfile, Pipfile.lock, .venv"
+        source: "wsgi.py, app, Pipfile, Pipfile.lock"
         target: "/srv/worldview"
-        
+      
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        script: | 
+          cd /srv/worldview
+          pipenv install      
         
         
   
