@@ -24,7 +24,11 @@ jobs:
 
     # Runs a single command using the runners shell
     - name: Run a one-line script
-      run: echo Hello, world!
+      run: |
+        export PIPENV_VENV_IN_PROJECT="enabled",
+        pip install pipenv,
+        pipenv install
+        
 
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
