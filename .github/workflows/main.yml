@@ -74,7 +74,7 @@ jobs:
         script: | 
           cd /srv/worldview
           export PIPENV_VENV_IN_PROJECT=enabled
-          pipenv install      
+          python3 -m pipenv install      
         
         
   
