@@ -27,7 +27,7 @@ function App() {
     if (fetchingData) {
       const fetchImageData = async () => {
         try {
-          await axios.get(`${window.location.protocol}//${window.location.host}/worldview/images?count=15`).then(res => {
+          await axios.get(`${window.location.protocol}//${window.location.host}${window.location.pathname}/images?count=15`).then(res => {
             const images = res.data
 
             images.forEach((entry, index) => {
