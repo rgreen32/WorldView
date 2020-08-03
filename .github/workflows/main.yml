@@ -47,4 +47,4 @@ jobs:
         password: ${{ secrets.PASSWORD }}
         source: "client/build/*"
         target: "/test/"
-
+        strip_components: 2
