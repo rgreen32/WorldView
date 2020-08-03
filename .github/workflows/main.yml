@@ -6,9 +6,9 @@ name: CI
 # events but only for the master branch
 on:
   push:
-    branches: [ master, develop ]
+    branches: [ master]
   pull_request:
-    branches: [ master, develop ]
+    branches: [ master]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -37,7 +37,7 @@ jobs:
       
     - name: Build page
       working-directory: client
-      run: npm run build
+      run: CI=false npm run build
 
     - name: copy file via ssh password
       uses: appleboy/scp-action@master
