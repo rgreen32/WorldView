@@ -27,7 +27,7 @@ jobs:
       run: |
         export PIPENV_VENV_IN_PROJECT="enabled"
         pip install --upgrade pip
-        pip install pipenv
+        pip install --user pipenv
         pipenv install
       
 #     - name: install pipenv
