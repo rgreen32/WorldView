@@ -46,5 +46,5 @@ jobs:
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
         source: "client/build/*"
-        target: "/test/"
+        target: "/var/www/greenboy.io/worldview/html"
         strip_components: 2
