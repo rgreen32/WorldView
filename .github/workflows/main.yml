@@ -31,9 +31,6 @@ jobs:
       
     - name: install dependencies
       run: export pipenv install
-        
-        
-        
 
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
@@ -47,6 +44,9 @@ jobs:
     - name: Build page
       working-directory: client
       run: CI=false npm run build
+      
+    - name: ls
+      run: ls -a
 
     - name: copy file via ssh password
       uses: appleboy/scp-action@master
@@ -64,7 +64,7 @@ jobs:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
-        source: "wsgi.py, app, Pipfile, Pipfile.lock"
+        source: "wsgi.py, app, Pipfile, Pipfile.lock, .venv"
         target: "/srv/worldview"
         
         
