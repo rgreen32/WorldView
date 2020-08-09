@@ -93,9 +93,8 @@ jobs:
         password: ${{ secrets.PASSWORD }}
         script: | 
           cd /srv/worldview
-          export PIPENV_VENV_IN_PROJECT=enabled
           pipenv uninstall --all
-          python3 -m pipenv install      
+          pipenv install      
         
         
   
