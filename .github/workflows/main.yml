@@ -95,6 +95,8 @@ jobs:
           cd /srv/worldview
           pipenv uninstall --all
           pipenv install      
-        
+          
+    - name: Restart app
+      run: systemctl start worldview.service
         
   
