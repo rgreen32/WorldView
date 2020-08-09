@@ -51,8 +51,8 @@ jobs:
         echo DBFILE_PATH=/var/lib/worldview/index.db >> worldview.conf
         echo REQUEST_LIMIT=11 >> worldview.conf
         echo IMAGEFINDER_SLEEP_DURATION_SECONDS=900 >> worldview.conf
-        echo SENTRY_DSN=https://872d6c99bda945b08b47bec8257b151c@o423017.ingest.sentry.io/5363921 >> worldview.conf
-        echo WORLDVIEW_API_KEY=be4f8c32aabd98bf2b94d401bc394458575125bb7b3453a3254a80cf80c5469d >> worldview.conf
+        echo SENTRY_DSN=${{ secrets.SENTRY_DSN }} >> worldview.conf
+        echo WORLDVIEW_API_KEY=${{ secrets.API_KEY }} >> worldview.conf
 
     - name: ls
       run: ls -a
