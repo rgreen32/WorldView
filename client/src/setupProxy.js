@@ -1,9 +1,11 @@
 const { createProxyMiddleware } = require('http-proxy-middleware')
 
-module.exports = (app) => {
-    app.use("/worldview/images",
-        createProxyMiddleware({
-            target: "http://localhost:5000",
-        })
-    )
+if (process.env.REACT_APP_PROXY_TARGET) {
+    module.exports = (app) => {
+        app.use("/worldview/images",
+            createProxyMiddleware({
+                target: process.env.REACT_APP_PROXY_TARGET,
+            })
+        )
+    }
 }

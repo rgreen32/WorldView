@@ -9,7 +9,7 @@ from app.utils import ensure_schema
 
 from app import app
 environment = os.getenv("ENVIRONMENT")
-sentry_sdk.init(os.getenv("SENTRY_DSN"), environment=environment)
+sentry_sdk.init(os.getenv("SENTRY_DSN"), environment=environment, ignore_errors=["UNIQUE constraint failed:"])
 
 ensure_schema()
 
