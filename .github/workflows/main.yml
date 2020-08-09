@@ -97,6 +97,6 @@ jobs:
           pipenv install      
           
     - name: Restart app
-      run: systemctl start worldview.service
+      run: systemctl restart worldview.service
         
   
