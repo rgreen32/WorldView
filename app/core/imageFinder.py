@@ -13,11 +13,17 @@ class ImageFinder:
         self.unsplashURL = "https://api.unsplash.com/photos/random/?collections=" + collections + "&orientation=landscape&count=30&client_id=" + self.key
 
     def fetchImages(self):
-        res = requests.get(self.unsplashURL).json()
         images = []
-        for image in res:
-            if(image["location"]["position"]["latitude"] != None and image["location"]["position"]["longitude"] != None):
-               images.append({"url": image["urls"]["regular"],"location":image["location"]["name"] ,"gps":image["location"]["position"], "userName": image["user"]["name"], "portfolio":image["user"]["portfolio_url"], "unsplash_profile":image["user"]["links"]["html"]})
+        res = None
+        try:
+            res = requests.get(self.unsplashURL)
+        except Exception as e:
+            logger.warn(e)
+        
+        if(res != None):
+            for image in res.json():
+                if(image["location"]["position"]["latitude"] != None and image["location"]["position"]["longitude"] != None):
+                    images.append({"url": image["urls"]["regular"],"location":image["location"]["name"] ,"gps":image["location"]["position"], "userName": image["user"]["name"], "portfolio":image["user"]["portfolio_url"], "unsplash_profile":image["user"]["links"]["html"]})
         return images
             
     
