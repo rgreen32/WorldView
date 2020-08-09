@@ -64,7 +64,7 @@ jobs:
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
         source: "worldview.conf"
-        target: "/etc/worldview/worldview.conf"
+        target: "/etc/worldview"
 
     - name: copy file via ssh password
       uses: appleboy/scp-action@master
