@@ -10,9 +10,9 @@ class ImageFinder:
         self.key = os.getenv("WORLDVIEW_API_KEY")
         self.images = []
         self.collections = collections
-        self.unsplashURL = "https://api.unsplash.com/photos/random/?collections=" + ",".join(collections) + "&orientation=landscape&count=30&client_id=" + self.key
+        self.unsplashURL = "https://api.unsplash.com/photos/random/?collections=" + collections + "&orientation=landscape&count=30&client_id=" + self.key
 
-    def fetchImage(self):
+    def fetchImages(self):
         res = requests.get(self.unsplashURL).json()
         images = []
         for image in res:
@@ -49,11 +49,11 @@ class ImageFinder:
                 time.sleep(sleep_duration)
                 logger.info("restarting request cycle...")
                 api_requests = 0
-            imgData = self.fetchImage()
+            imgData = self.fetchImages()
             api_requests+=1
             if(imgData != None):
                 self.images = self.images + imgData
-            time.sleep(1)
+
             
 
 
