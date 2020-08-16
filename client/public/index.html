@@ -1,50 +1,36 @@
 <!DOCTYPE html>
 <html style="height: 100%;" lang="en">
-  <head>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=UA-155404472-1"
-    ></script>
-    <script>
-      window.dataLayer = window.dataLayer || []
-      function gtag() {
-        dataLayer.push(arguments)
-      }
-      gtag("js", new Date())
 
-      gtag("config", "UA-155404472-1")
-    </script>
+<head>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-155404472-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || []
+    function gtag() {
+      dataLayer.push(arguments)
+    }
+    gtag("js", new Date())
 
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/logo.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
+    gtag("config", "UA-155404472-1")
+  </script>
 
-    <!-- <link rel="stylesheet" type="text/css" href="%PUBLIC_URL%index.css" /> -->
-    <link
-      href="https://fonts.googleapis.com/css?family=Poiret+One&display=swap"
-      rel="stylesheet"
-    />
+  <meta charset="utf-8" />
+  <link rel="icon" href="%PUBLIC_URL%/logo.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="description" content="Web site created using create-react-app" />
 
-    <title>WorldView</title>
-  </head>
-  <body
-    style="height: 100%; overflow: hidden; font-family: 'Poiret One', cursive; background-color: black;"
-  >
-    <noscript>You need to enable JavaScript to run this app.</noscript>
+  <script src="https://kit.fontawesome.com/59a1b739d9.js" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css?family=Poiret+One&display=swap" rel="stylesheet" />
 
-    <div
-      id="globeContainer"
-      style="height: 100%; width: 100%; z-index: 5; position: absolute;"
-    ></div>
-    <div
-      id="root"
-      style=" z-index: 100; position: relative;  height: 100%; pointer-events: none;"
-    ></div>
-  </body>
+  <title>WorldView</title>
+</head>
+
+<body style="height: 100%; overflow: hidden; font-family: 'Poiret One', cursive; background-color: black;">
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+
+  <div id="globeContainer" style="height: 100%; width: 100%; z-index: 5; position: absolute;"></div>
+  <div id="root" style=" z-index: 100; position: relative;  height: 100%; pointer-events: none;"></div>
+</body>
+
 </html>

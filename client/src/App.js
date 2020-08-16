@@ -75,24 +75,27 @@ function App() {
           top: "25px",
           left: "30px"
         }}
-        class="navbar-brand"
+        className="navbar-brand"
       >
         <img id="logo" height="40px" width="40px" src={`${window.location.protocol}//${window.location.host}${window.location.pathname}/logo.png`} />
       </a>
       {focusedMarker != null && (
         <ImgsViewer
-          imgs={[{ src: image, caption: imageCaption }]}
+          imgs={[{ src: image, caption: <a href={imageCaption} style={{ color: "white" }} target="_blank">{imageCaption}</a> }]}
           isOpen={visible}
           showCloseBtn={false}
           backdropCloseable={true}
           showImgCount={false}
+          // actionElement={<i className="icon fa fa-arrow-down fa-2x"></i>}
           onClickImg={() => {
             setVisible(false)
             setFocusedMarker(null)
+            setImage(null)
           }}
           onClose={() => {
             setVisible(false)
             setFocusedMarker(null)
+            setImage(null)
           }}
         />
       )}
