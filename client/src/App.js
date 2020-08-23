@@ -3,8 +3,9 @@ import { Spinner, Row, Col } from "reactstrap"
 import axios from "axios"
 import Globe from "./Globe"
 import ImageList from "./ImageList"
-import ImgsViewer from "react-images-viewer"
+import ImgsViewer from "./react-images-viewer"
 import Sparkle from "react-sparkle"
+import { saveAs } from "file-saver"
 import { Tween, Easing, update } from "es6-tween"
 import { toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
@@ -63,6 +64,8 @@ function App() {
                 1.5
               ); 
             }
+            #icon:hover {
+              cursor: pointer;
     `
         }}
       />
@@ -86,7 +89,16 @@ function App() {
           showCloseBtn={false}
           backdropCloseable={true}
           showImgCount={false}
-          // actionElement={<i className="icon fa fa-arrow-down fa-2x"></i>}
+          actionElement={<i id="icon" className="icon fa fa-arrow-down fa-2x" onClick={async ()=>{
+            try {
+              var imagebytes = await axios.post(`${window.location.protocol}//${window.location.host}${window.location.pathname}/download`,
+              {"image_url": markers[focusedMarker].image, "image_id":markers[focusedMarker].image_id})
+              // let blob = new Blob(imagebytes.data)
+              saveAs(imagebytes.data, markers[focusedMarker].location+".jpg")
+            } catch (error) {
+              console.log(error)
+            }
+          }}></i>}
           onClickImg={() => {
             setVisible(false)
             setFocusedMarker(null)

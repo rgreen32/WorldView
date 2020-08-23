@@ -1,5 +1,7 @@
 test.py
-venv/
+.venv/
+__pycache__/
+.http
 *.pyc
 .vscode/
 index.db

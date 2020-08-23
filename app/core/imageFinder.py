@@ -23,7 +23,14 @@ class ImageFinder:
         if(res != None):
             for image in res.json():
                 if(image["location"]["position"]["latitude"] != None and image["location"]["position"]["longitude"] != None):
-                    images.append({"url": image["urls"]["regular"],"location":image["location"]["name"] ,"gps":image["location"]["position"], "userName": image["user"]["name"], "portfolio":image["user"]["portfolio_url"], "unsplash_profile":image["user"]["links"]["html"]})
+                    images.append({"url": image["urls"]["regular"],
+                    "location": image["location"]["name"] ,
+                    "gps": image["location"]["position"],
+                    "userName": image["user"]["name"], 
+                    "portfolio": image["user"]["portfolio_url"], 
+                    "unsplash_profile": image["user"]["links"]["html"],
+                    "image_id": image["id"]
+                    })
         return images
             
     
@@ -38,14 +45,14 @@ class ImageFinder:
             if(api_requests >= request_limit):
                 tuples = []
                 for image in self.images:
-                    tuples.append((image["url"], image["location"], image["gps"]["latitude"], image["gps"]["longitude"], image["userName"], image["portfolio"], image["unsplash_profile"]))
+                    tuples.append((image["url"], image["location"], image["gps"]["latitude"], image["gps"]["longitude"], image["userName"], image["portfolio"], image["unsplash_profile"], image["image_id"]))
                 conn = sqlite3.connect(dbfile_path)
                 
                 c = conn.cursor()
                 logger.info("Saving images..")
                 for image in tuples:
                     try:
-                        c.execute("INSERT INTO Images VALUES(?, ?, ?, ?, ?, ?, ?)", image)
+                        c.execute("INSERT INTO Images VALUES(?, ?, ?, ?, ?, ?, ?, ?)", image)
                         conn.commit()
                     except Exception as e:
                         logger.warn(e)

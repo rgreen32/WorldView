@@ -21,6 +21,7 @@ def ensure_schema():
         curent_schema_sql = result[0].replace(" ","")
         new_schema_sql = sql.replace(" ", "").replace(";","")
         if curent_schema_sql != new_schema_sql:
+            logger.warn("Change detected in schema. Recreating table...")
             c.execute("DROP TABLE Images")
             c.execute(sql)
     else:
