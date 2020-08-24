@@ -37,12 +37,10 @@ def index():
 def download():
     json = request.get_json()
     image_id = json["image_id"]
-    image_url = json["image_url"]
-    imagebytes = None
     try:
         requests.get("https://api.unsplash.com/photos/" + image_id + "/download?client_id=" + api_key)
-        imagebytes = requests.get(image_url).content
     except Exception as e:
         logger.warn(e)
+        Response(status=500)
 
-    return Response(headers={"Content-Disposition": "attachment", "Content-Type": "application/octet-stream"}, response=imagebytes)
+    return Response(status=200)
