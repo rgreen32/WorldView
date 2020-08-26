@@ -3,7 +3,7 @@ import { Spinner, Row, Col } from "reactstrap"
 import axios from "axios"
 import Globe from "./Globe"
 import ImageList from "./ImageList"
-import ImgsViewer from "react-images-viewer"
+import ImgsViewer from "./react-images-viewer"
 import Sparkle from "react-sparkle"
 import { saveAs } from "file-saver"
 import { Tween, Easing, update } from "es6-tween"
@@ -22,6 +22,7 @@ function App() {
   const [enhanceHover, setEnhanceHover] = useState(false)
   const [enhanced, setEnhanced] = useState(false)
   toast.configure()
+
 
 
   useEffect(() => {
@@ -64,6 +65,9 @@ function App() {
                 1.5
               ); 
             }
+            #icon{
+              position: relative;
+            }
             #icon:hover {
               cursor: pointer;
     `
@@ -89,15 +93,33 @@ function App() {
           showCloseBtn={false}
           backdropCloseable={true}
           showImgCount={false}
-          actionElement={<i id="icon" className="icon fa fa-arrow-down fa-2x" onClick={async ()=>{
-            try {
-              await axios.post(`${window.location.protocol}//${window.location.host}${window.location.pathname}/download`,
-              {"image_id" : markers[focusedMarker].image_id})
-              saveAs(markers[focusedMarker].image, markers[focusedMarker].location+".jpg")
-            } catch (error) {
-              console.log(error)
+          actionElement={<i id="icon" className="icon fa fa-arrow-down fa-2x"
+            onMouseEnter={() =>{
+              console.log("Hii")
+              var icon = document.getElementById("icon")
+              var coords = { y: 0 }
+              var floatAnimation = new Tween(coords)
+                .to({ y: 30}, 1800)
+                .easing(Easing.Quartic.In)
+                .repeat(5)
+                .yoyo(true)
+                .on("update", () =>{
+                  icon.style.setProperty("top", `${coords.y}px`)
+                }).start()
+              } 
             }
-          }}></i>}
+            onClick={async ()=>{
+              try {
+                await axios.post(`${window.location.protocol}//${window.location.host}${window.location.pathname}/download`,
+                {"image_id" : markers[focusedMarker].image_id})
+                saveAs(markers[focusedMarker].full_image, markers[focusedMarker].location+".jpg")
+              } catch (error) {
+                console.log(error)
+              }
+              }
+            }>
+          </i>
+          }
           onClickImg={() => {
             setVisible(false)
             setFocusedMarker(null)
