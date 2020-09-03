@@ -3,7 +3,7 @@
 # dependencies
 /node_modules
 /src/react-images-viewer
-/src/file-saver
+/src/FileSaver
 /.pnp
 .pnp.js
 
