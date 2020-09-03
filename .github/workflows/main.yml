@@ -62,7 +62,7 @@ jobs:
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
+        key: ${{ secrets.SSH_KEY }}
         source: "worldview.conf"
         target: "/etc/worldview"
 
@@ -71,7 +71,7 @@ jobs:
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
+        key: ${{ secrets.SSH_KEY }}
         source: "client/build/*"
         target: "/var/www/greenboy.io/worldview/html"
         strip_components: 2
@@ -81,7 +81,7 @@ jobs:
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
+        key: ${{ secrets.SSH_KEY }}
         source: "wsgi.py, app, Pipfile, Pipfile.lock"
         target: "/srv/worldview"
       
@@ -90,7 +90,7 @@ jobs:
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
+        key : ${{ secrets.SSH_KEY }}
         script: | 
           cd /srv/worldview
           pipenv uninstall --all
