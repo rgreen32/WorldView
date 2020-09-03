@@ -1,7 +1,10 @@
 test.py
-venv/
+.venv/
+__pycache__/
+.http
 *.pyc
 .vscode/
 index.db
 .env
 worldview.ini
+requirements.txt

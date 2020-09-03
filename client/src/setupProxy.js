@@ -7,5 +7,10 @@ if (process.env.REACT_APP_PROXY_TARGET) {
                 target: process.env.REACT_APP_PROXY_TARGET,
             })
         )
+        app.use("/worldview/download",
+            createProxyMiddleware({
+                target: process.env.REACT_APP_PROXY_TARGET,
+            })
+        )
     }
 }

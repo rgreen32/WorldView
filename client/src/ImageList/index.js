@@ -9,6 +9,22 @@ const ImageList = props => {
   const [currentPage, setCurrentPage] = useState([])
   const [pageIndex, setPageIndex] = useState(0)
 
+  var icon = document.getElementById("refresh")
+  var coords = { x: 0 }
+  var hoverRotation = new Tween(coords)
+    .to({ x: 360 }, 1000)
+    .easing(Easing.Quadratic.Out)
+    .on("update", () => {
+      icon.style.setProperty("transform", `rotate(${coords.x}deg)`)
+    })
+
+  var clickRotation = new Tween(coords)
+    .to({ x: 720 }, 1000)
+    .easing(Easing.Quadratic.Out)
+    .on("update", () => {
+      icon.style.setProperty("transform", `rotate(${coords.x}deg)`)
+    })
+
   useEffect(() => {
     const imageArray = props.images.slice()
     const pageLength = 5
@@ -62,27 +78,11 @@ const ImageList = props => {
             className="mr-3"
             style={{ cursor: "pointer" }}
             onMouseEnter={() => {
-              let icon = document.getElementById("refresh")
-              let coords = { x: 0 }
-              var tween = new Tween(coords)
-                .to({ x: 360 }, 1000)
-                .easing(Easing.Quadratic.Out)
-                .on("update", () => {
-                  icon.style.setProperty("transform", `rotate(${coords.x}deg)`)
-                })
-                .start()
+              hoverRotation.start()
             }}
             onClick={() => {
               props.setFetchingData(true)
-              let icon = document.getElementById("refresh")
-              let coords = { x: 0 }
-              var tween = new Tween(coords)
-                .to({ x: 720 }, 1000)
-                .easing(Easing.Quadratic.Out)
-                .on("update", () => {
-                  icon.style.setProperty("transform", `rotate(${coords.x}deg)`)
-                })
-                .start()
+              clickRotation.start()
             }}
             src={`${window.location.protocol}//${window.location.host}${window.location.pathname}/refresh.png`}
           ></img>

@@ -2,6 +2,8 @@
 
 # dependencies
 /node_modules
+/src/react-images-viewer
+/src/file-saver
 /.pnp
 .pnp.js
 
