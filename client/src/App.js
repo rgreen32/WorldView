@@ -3,7 +3,7 @@ import { Spinner, Row, Col } from "reactstrap"
 import axios from "axios"
 import Globe from "./Globe"
 import ImageList from "./ImageList"
-import ImgsViewer from "react-images-viewer"
+import ImgsViewer from "./react-images-viewer"
 import Sparkle from "react-sparkle"
 import { saveAs } from "file-saver"
 import { Tween, Easing, update } from "es6-tween"
@@ -35,9 +35,9 @@ function App() {
             images.forEach((entry, index) => {
               entry.id = index
               entry.size = 0.04
-              entry.color = "gold"
+              entry.color = "#ffe34c"
               entry.alt = 0.02
-              entry.radius = 2
+              entry.radius = 1.7
             })
             setMarkers(images)
           })
@@ -97,7 +97,7 @@ function App() {
               var floatAnimation = new Tween(coords)
                 .to({ y: 30}, 1200)
                 .easing(Easing.Quadratic.In)
-                .repeat(5)
+                .repeat(3)
                 .yoyo(true)
                 .on("update", () =>{
                   icon.style.setProperty("top", `${coords.y}px`)

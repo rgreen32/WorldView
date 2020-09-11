@@ -34,10 +34,10 @@ export default function Globe(props) {
     const options = {
       ...defaultOptions, // console.log this for reference
       backside: false,
-      coefficient: 0,
+      coefficient: .75,
       color: "gold",
-      size: 5,
-      power: 7
+      size: 1,
+      power: .5
     }
 
     const orbitControls = new OrbitControls(camera, renderer.domElement)
@@ -51,7 +51,7 @@ export default function Globe(props) {
       .customThreeObject(d => {
         var orignalMesh = new THREE.Mesh(
           new THREE.SphereGeometry(d.radius),
-          new THREE.MeshLambertMaterial({ color: d.color })
+          new THREE.MeshLambertMaterial({color: d.color})
         )
 
         let glo = createGlowMesh(orignalMesh.geometry, options)
