@@ -12,6 +12,7 @@ export default function Globe(props) {
   const [globeScene, setGlobeScene] = useState()
   const [globeCamera, setGlobeCamera] = useState()
   const [globeRenderer, setGlobeRenderer] = useState()
+  const [cameraFocusedFromMarker, setCameraFocusedFromMarker] = useState(false)
   const [globeControls, setGlobeControls] = useState()
   const [hoverFocusedMarker, setHoverFocusedMarker] = useState(null)
   const [focusedMarker, setFocusedMarker] = useState(null)
@@ -34,16 +35,18 @@ export default function Globe(props) {
     const options = {
       ...defaultOptions, // console.log this for reference
       backside: false,
-      coefficient: 0,
+      coefficient: .75,
       color: "gold",
-      size: 5,
-      power: 7
+      size: 1,
+      power: .5
     }
 
     const orbitControls = new OrbitControls(camera, renderer.domElement)
     orbitControls.autoRotate = true
     const interaction = new Interaction(renderer, scene, camera)
     var marks = {}
+    var animations = []
+    var counter = 0
     const myGlobe = new ThreeGlobe({ onReady: props.setLoadingGlobe })
       .globeImageUrl(`${window.location.protocol}//${window.location.host}${window.location.pathname}/map.jpg`)
       .bumpImageUrl(`${window.location.protocol}//${window.location.host}${window.location.pathname}/bumpmap.jpg`)
@@ -51,7 +54,7 @@ export default function Globe(props) {
       .customThreeObject(d => {
         var orignalMesh = new THREE.Mesh(
           new THREE.SphereGeometry(d.radius),
-          new THREE.MeshLambertMaterial({ color: d.color })
+          new THREE.MeshLambertMaterial({color: d.color})
         )
 
         let glo = createGlowMesh(orignalMesh.geometry, options)
@@ -60,7 +63,38 @@ export default function Globe(props) {
         return orignalMesh
       })
       .customThreeObjectUpdate((obj, d) => {
-        Object.assign(obj.position, myGlobe.getCoords(d.lat, d.lng, d.alt))
+        var coords = myGlobe.getCoords(d.lat, d.lng, d.alt)
+        var source = Object.assign({}, coords)
+
+        if(d.lat >= 0){
+          source.y = source.y+300
+        }else{
+          source.y = source.y-300
+        }
+        
+        var tween = new Tween(source)
+        .to({ x: coords.x, y: coords.y, z: coords.z }, 120)
+        .easing(Easing.Quadratic.Out)
+        .on("update", () => {
+          Object.assign(obj.position, source)
+        })
+        .on("complete", () => {
+          if(counter < animations.length){
+            animations[counter].start()
+            counter++
+          }else{
+            counter = 0
+            animations = []
+          }
+        })
+        animations.push(tween)
+        if (counter==0){
+          tween.start()
+          counter++
+        }
+        
+
+        // Object.assign(obj.position, myGlobe.getCoords(d.lat, d.lng, d.alt))
         marks[d.id] = obj
         obj.cursor = "pointer"
         obj.on("click", function (ev) {
@@ -70,11 +104,8 @@ export default function Globe(props) {
           orbitControls.dampingFactor = 0
 
           if (cameraFocused != true) {
-            setInitialCameraPosition({
-              x: -415.2971330601325,
-              y: 157.35740158480883,
-              z: -14.427464555977274
-            })
+
+            setCameraFocusedFromMarker(true)
           }
         })
 
@@ -172,6 +203,16 @@ export default function Globe(props) {
     animate()
     setGlobeScene(scene)
   }, [])
+
+  useEffect(() => {
+    if (cameraFocusedFromMarker) {
+      setInitialCameraPosition({
+        x: globeCamera.position.x,
+        y: globeCamera.position.y,
+        z: globeCamera.position.z
+      })
+    }
+  }, [cameraFocusedFromMarker])
 
   useEffect(() => {
     if (props.hoverFocusedMarker != null) {
