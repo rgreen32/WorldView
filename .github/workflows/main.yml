@@ -20,14 +20,6 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
-    # Runs a single command using the runners shell
-#     - name: set venv home directory
-#       run: |
-#         export PIPENV_VENV_IN_PROJECT="enabled"
-#         pip install --upgrade pip
-#         pip install --user pipenv
-#         pipenv install
-
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
