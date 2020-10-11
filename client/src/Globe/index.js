@@ -171,9 +171,10 @@ export default function Globe(props) {
     orbitControls.autoRotateSpeed = 1.0
     orbitControls.enableDamping = true
     orbitControls.enablePan = false
-    orbitControls.minDistance = 101
+    orbitControls.maxDistance = 800
     orbitControls.zoomSpeed = 0.8
     orbitControls.rotateSpeed = 1.5
+    orbitControls.minZoom = 300
     orbitControls.saveState()
     setGlobeControls(orbitControls)
     function onWindowResize() {
