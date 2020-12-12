@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import ThreeGlobe from "./three-globe"
+import ThreeGlobe from "three-globe"
 import * as THREE from "three"
 import { createGlowMesh, defaultOptions } from "three-glow-mesh"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
@@ -47,7 +47,7 @@ export default function Globe(props) {
     var marks = {}
     var animations = []
     var counter = 0
-    const myGlobe = new ThreeGlobe({ onReady: props.setLoadingGlobe })
+    const myGlobe = new ThreeGlobe()
       .globeImageUrl(`${window.location.protocol}//${window.location.host}${window.location.pathname}/map.jpg`)
       .bumpImageUrl(`${window.location.protocol}//${window.location.host}${window.location.pathname}/bumpmap.jpg`)
       .customLayerData(props.markers)
@@ -65,13 +65,11 @@ export default function Globe(props) {
       .customThreeObjectUpdate((obj, d) => {
         var coords = myGlobe.getCoords(d.lat, d.lng, d.alt)
         var source = Object.assign({}, coords)
-
         if(d.lat >= 0){
           source.y = source.y+300
         }else{
           source.y = source.y-300
         }
-        
         var tween = new Tween(source)
         .to({ x: coords.x, y: coords.y, z: coords.z }, 120)
         .easing(Easing.Quadratic.Out)
@@ -92,31 +90,24 @@ export default function Globe(props) {
           tween.start()
           counter++
         }
-        
-
-        // Object.assign(obj.position, myGlobe.getCoords(d.lat, d.lng, d.alt))
         marks[d.id] = obj
         obj.cursor = "pointer"
         obj.on("click", function (ev) {
           props.setFocusedMarker(ev.data.target.__data.id)
-
           orbitControls.autoRotate = false
           orbitControls.dampingFactor = 0
-
           if (cameraFocused != true) {
-
             setCameraFocusedFromMarker(true)
           }
         })
-
         obj.on("mouseover", function (ev) {
           ev.target.scale.set(1.5, 1.5, 1.5)
         })
-
         obj.on("mouseout", function (ev) {
           ev.data.target.scale.set(1, 1, 1)
         })
       })
+      .onReady(()=>{props.setLoadingGlobe(false)})
     setGlobe(myGlobe)
     setMarkerObj(marks)
 
