@@ -11,28 +11,15 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
+  deployment:
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    
-    - name: Install Packages
-      working-directory: client
-      run: npm install
-      
-    - name: Build frontend
-      working-directory: client
-      run: CI=false npm run build
-      
     - name: Build environment file
       run: |
         touch worldview.conf
@@ -47,33 +34,15 @@ jobs:
     - name: ls
       run: ls -a
     
-    - name: copy file via ssh password
-      uses: appleboy/scp-action@master
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.SSH_KEY }}
-        source: "worldview.conf"
-        target: "/etc/worldview"
+    - name: copy config file
+      run: |
+        cp worldview.conf /etc/worldview
 
-    - name: copy file via ssh password
-      uses: appleboy/scp-action@master
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.SSH_KEY }}
-        source: "client/build/*"
-        target: "/var/www/greenboy.io/worldview/html"
-        strip_components: 2
 
-    - name: copy file via ssh password
-      uses: appleboy/scp-action@master
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.SSH_KEY }}
-        source: "wsgi.py, app, Pipfile, Pipfile.lock"
-        target: "/srv/worldview"
+    - name: copy src files
+      run: |
+        cp -R wsgi.py Pipfile Pipfile.lock app /srv/worldview
+
       
     - name: executing remote ssh commands using password
       uses: appleboy/ssh-action@master

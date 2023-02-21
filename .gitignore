@@ -8,3 +8,4 @@ index.db
 .env
 worldview.ini
 requirements.txt
+.devcontainer
