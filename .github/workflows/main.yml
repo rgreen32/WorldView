@@ -10,50 +10,18 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  deployment:
-    # The type of runner that the job will run on
-    runs-on: self-hosted
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
+  go:
+    inputs:
+      ENVIRONMENT
+      COLLECTIONS
+      DBFILE_PATH
+      REQUEST_LIMIT
+      IMAGEFINDER_SLEEP_DURATION_SECONDS
+      WORLDVIEW_API_KEY
+    runs:
+      using: 'docker'
+      image: 'Dockerfile'
 
-    - name: Build environment file
-      run: |
-        touch worldview.conf
-        echo COLLECTIONS=641217,228275,370126,3129418 >> worldview.conf
-        echo ENVIRONMENT=production >> worldview.conf
-        echo DBFILE_PATH=/var/lib/worldview/index.db >> worldview.conf
-        echo REQUEST_LIMIT=11 >> worldview.conf
-        echo IMAGEFINDER_SLEEP_DURATION_SECONDS=900 >> worldview.conf
-        echo SENTRY_DSN=${{ secrets.SENTRY_DSN }} >> worldview.conf
-        echo WORLDVIEW_API_KEY=${{ secrets.API_KEY }} >> worldview.conf
-
-    - name: ls
-      run: ls -a
-    
-    - name: copy config file
-      run: |
-        cp worldview.conf /etc/worldview
-
-
-    - name: copy src files
-      run: |
-        cp -R wsgi.py Pipfile Pipfile.lock app /srv/worldview
-
-      
-    - name: executing remote ssh commands using password
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        key : ${{ secrets.SSH_KEY }}
-        script: | 
-          cd /srv/worldview
-          pipenv uninstall --all
-          pipenv install
-          systemctl restart worldview.service      
-          
+   
   
