@@ -28,21 +28,20 @@ imageFinderThread.start()
 
 imageHandler = ImageHandler()
 
-@app.route("/worldview/images")
+@app.route("/images")
 def index():
     print("Hello")
     image_count = request.args["count"]
     images = imageHandler.grabRandomImages(image_count)
     return jsonify(images)
 
-@app.route("/worldview/download", methods=["POST"])
+@app.route("/download", methods=["POST"])
 def download():
     json = request.get_json()
     image_id = json["image_id"]
     try:
         requests.get("https://api.unsplash.com/photos/" + image_id + "/download?client_id=" + api_key)
     except Exception as e:
-        logger.warn(e)
         Response(status=500)
 
     return Response(status=200)

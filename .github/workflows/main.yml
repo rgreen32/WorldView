@@ -11,17 +11,39 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
 
-  go:
-    inputs:
-      ENVIRONMENT
-      COLLECTIONS
-      DBFILE_PATH
-      REQUEST_LIMIT
-      IMAGEFINDER_SLEEP_DURATION_SECONDS
-      WORLDVIEW_API_KEY
-    runs:
-      using: 'docker'
-      image: 'Dockerfile'
+  # This workflow contains a single job called "build"
+  env-file:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - uses: actions/checkout@v2
 
-   
+    - name: Build environment file
+      run: |
+        touch .env
+        echo COLLECTIONS=641217,228275,370126,3129418 >> .env
+        echo ENVIRONMENT=production >> .env
+        echo DBFILE_PATH=/var/lib/worldview/Index.db >> .env
+        echo REQUEST_LIMIT=11 >> .env
+        echo IMAGEFINDER_SLEEP_DURATION_SECONDS=900 >> .env
+        echo WORLDVIEW_API_KEY=${{ secrets.API_KEY }} >> .env
+
+    - name: cat
+      run: cat .env
+
   
+    - name: Deploy to Docker swarm
+      uses: wshihadeh/docker-deployment-action@v1
+      with:
+        remote_docker_host: user@myswarm.com
+        ssh_private_key: ${{ secrets.DOCKER_SSH_PRIVATE_KEY }}
+        ssh_public_key: ${{ secrets.DOCKER_SSH_PUBLIC_KEY }}
+        deployment_mode: docker-swarm
+        copy_stack_file: true
+        deploy_path: /root/my-deployment
+        stack_file_name: docker-compose.yaml
+        keep_files: 5
+        args: my_applicaion

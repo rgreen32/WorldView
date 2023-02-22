@@ -1,0 +1,13 @@
+version: "3"
+services:
+  worldview:
+    image: worldview
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - /var/lib/worldview:/var/lib/worldview
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
