@@ -34,5 +34,6 @@ jobs:
 
     - name: Docker build
       run: |
+        ls
         docker build . -t worldview_service
 
