@@ -7,6 +7,7 @@ services:
       dockerfile: ./Dockerfile
     volumes:
       - /var/lib/worldview:/var/lib/worldview
+      - /etc/letsencrypt/live/bloosky.duckdns.org:/etc/letsencrypt/live/bloosky.duckdns.org
     ports:
       - "5000:5000"
     env_file:
