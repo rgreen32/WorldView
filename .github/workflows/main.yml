@@ -25,7 +25,7 @@ jobs:
       run: |
         touch .env
         echo COLLECTIONS=641217,228275,370126,3129418 >> .env
-        echo ENVIRONMENT=production >> .env
+        echo ENVIRONMENT=PRODUCTION >> .env
         echo DBFILE_PATH=/var/lib/worldview/Index.db >> .env
         echo REQUEST_LIMIT=11 >> .env
         echo IMAGEFINDER_SLEEP_DURATION_SECONDS=900 >> .env
@@ -36,5 +36,5 @@ jobs:
       run: |
         id
         ls
-        docker compose up --build
+        docker compose up --build --detach
 
