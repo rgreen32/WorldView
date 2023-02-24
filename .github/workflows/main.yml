@@ -35,6 +35,6 @@ jobs:
     - name: Docker build
       run: |
         id
-        ls -a
-        docker build . -t worldview_service
+        ls
+        docker compose up --build
 
