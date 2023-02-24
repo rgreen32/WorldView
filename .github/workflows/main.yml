@@ -30,8 +30,8 @@ jobs:
         echo REQUEST_LIMIT=11 >> .env
         echo IMAGEFINDER_SLEEP_DURATION_SECONDS=900 >> .env
         echo WORLDVIEW_API_KEY=${{ secrets.API_KEY }} >> .env
-        echo CERT_CERT_PATH=/etc/letsencrypt/live/bloosky.duckdns.org/fullchain.pem >> .env
-        echo KEY_CERT_PATH=/etc/letsencrypt/live/bloosky.duckdns.org/privkey.pem >> .env
+        echo CERT_CERT_PATH=/var/lib/worldview/cert.pem >> .env
+        echo KEY_CERT_PATH=/var/lib/worldview/key.pem >> .env
         cat .env
 
     - name: Docker build
