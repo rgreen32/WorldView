@@ -24,7 +24,7 @@
     "react-sparkle": "^2.0.0",
     "react-toastify": "^9.1.1",
     "reactstrap": "^9.1.5",
-    "three": "^0.113.2",
+    "three": "^0.125.0",
     "three-globe": "^2.25.4",
     "three-glow-mesh": "^0.1.2",
     "three-trackballcontrols": "^0.9.0",
